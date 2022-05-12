@@ -8,3 +8,11 @@
 - mysql 연결성공.
 - mysql에 member 테이블 생성.
 - memberdao 클래스에서 insert 메서드 정의해서 testmain 만들어서 insert 하는거 테스트 완료 및 성공.
+
+============================================================
+2022.05.11.목
+- footer. navar.html 나눔.
+- about, contact page html만들어서 연결 성공.
+- member 서비스를 위한 membercontroller 분리.
+- member 로그인, 회원가입을 위한 html 연결 및 form 부트스트랩 디자인 가져다 적용함.
+
