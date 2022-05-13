@@ -4,15 +4,14 @@ import com.example.convenience_pos_system.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.util.List;
 
 @Component
 public class MemberDao {
@@ -21,6 +20,25 @@ public class MemberDao {
     @Autowired
     public MemberDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    public Member selectByEmail(String email) {
+        List<Member> results = jdbcTemplate.query(
+                "select * from member where email = ?",
+                new RowMapper<Member>() {
+                    @Override
+                    public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        Member member = new Member(
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getString("name"),
+                                rs.getTimestamp("regdate").toString());
+                        member.setId(rs.getLong("id"));
+                        return member;
+                    }
+                }, email);
+
+        return results.isEmpty() ? null : results.get(0);
     }
 
     public void insert(final Member member) {

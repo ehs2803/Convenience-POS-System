@@ -22,8 +22,11 @@
                 <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
                     <div class="m-4 m-lg-5">
                         <h1 class="display-5 fw-bold">Convenience POS System</h1>
-                        <p class="fs-4">Bootstrap utility classes are used to create this jumbotron since the old component has been removed from the framework. Why create custom CSS when you can use utilities?</p>
-                        <a class="btn btn-primary btn-lg" href="/member/login">login</a>
+                        <p class="fs-4">편의점 POS 시스템 기능을 이용할 수 있습니다!</p>
+                        <a th:href="@{/member/login}" th:if="${session.loginMember eq null}" class="btn btn-primary btn-lg">로그인</a>
+                        <th:block th:unless="${session.loginMember eq null}">
+                            <a th:href="@{/member/logout}" class="btn btn-primary btn-lg">로그아웃</a>
+                        </th:block>
                     </div>
                 </div>
             </div>

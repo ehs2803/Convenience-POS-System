@@ -1,6 +1,8 @@
 package com.example.convenience_pos_system.config;
 
+import com.example.convenience_pos_system.controller.MemberController;
 import com.example.convenience_pos_system.dao.MemberDao;
+import com.example.convenience_pos_system.service.MemberService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -10,6 +12,16 @@ import javax.sql.DataSource;
 
 @Configuration
 public class JavaConfig {
+
+    @Bean
+    public MemberController memberController(){
+        return new MemberController(memberService());
+    }
+
+    @Bean
+    public MemberService memberService(){
+        return new MemberService(memberDao());
+    }
 
     @Bean
     public MemberDao memberDao(){
