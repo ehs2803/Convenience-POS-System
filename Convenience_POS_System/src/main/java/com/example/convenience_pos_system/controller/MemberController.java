@@ -5,6 +5,7 @@ import com.example.convenience_pos_system.domain.Member;
 import com.example.convenience_pos_system.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,4 +75,42 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
+    @GetMapping(value = "/detail")
+    public String detail(HttpServletRequest request, Model model){
+        //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession(true);
+        Member loginmember = (Member) session.getAttribute("loginMember");
+
+        model.addAttribute("loginmember",loginmember);
+
+        return "/member/memberDetail";
+    }
+
+    @GetMapping(value = "/update")
+    public String update(HttpServletRequest request, Model model){
+        //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession(true);
+        Member loginmember = (Member) session.getAttribute("loginMember");
+
+        model.addAttribute("loginmember",loginmember);
+
+        return "/member/updateForm";
+    }
+
+    @PostMapping(value = "/update")
+    public String updateMember(HttpServletRequest request){
+        String email = request.getParameter("email");
+        String pwd = request.getParameter("password");
+        String name = request.getParameter("name");
+        String role = request.getParameter("role");
+
+        System.out.println(email+pwd+name+role);
+        Member updatedMember = memberService.update(email, name, pwd, role);
+
+        //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession(true);
+        session.setAttribute("loginMember", updatedMember);
+
+        return "redirect:/member/detail";
+    }
 }

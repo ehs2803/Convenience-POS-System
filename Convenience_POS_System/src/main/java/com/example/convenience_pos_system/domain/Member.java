@@ -17,6 +17,14 @@ public class Member {
         this.role = role;
     }
 
+    public Member(String email, String password, String name, String role, Timestamp registerDate) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.role = role;
+        this.registerDate = registerDate;
+    }
+
     public Long getId() {
         return id;
     }

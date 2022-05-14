@@ -85,8 +85,13 @@
                         <div class="card bg-light border-0 h-100">
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                                 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-patch-check"></i></div>
-                                <h2 class="fs-4 fw-bold">계정 관리</h2>
-                                <p class="mb-0">Start Bootstrap has been the leader in free Bootstrap templates since 2013!</p>
+                                <th:block th:if="${session.loginMember eq null}">
+                                    <h2 class="fs-4 fw-bold">계정 관리</h2>
+                                </th:block>
+                                <th:block th:unless="${session.loginMember eq null}">
+                                    <a th:href="@{/member/detail}"><h2 class="fs-4 fw-bold">계정 관리</h2></a>
+                                </th:block>
+                                <p class="mb-0">로그인한 계정 정보를 확인하고, 정보를 수정할 수 있습니다.</p>
                             </div>
                         </div>
                     </div>

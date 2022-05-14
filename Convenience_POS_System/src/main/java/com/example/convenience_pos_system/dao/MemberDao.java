@@ -32,7 +32,8 @@ public class MemberDao {
                                 rs.getString("email"),
                                 rs.getString("password"),
                                 rs.getString("name"),
-                                rs.getTimestamp("regdate").toString());
+                                rs.getString("role"),
+                                rs.getTimestamp("regdate"));
                         member.setId(rs.getLong("id"));
                         return member;
                     }
@@ -63,5 +64,11 @@ public class MemberDao {
                 keyHolder );
         Number keyValue = keyHolder.getKey();
         member.setId(keyValue.longValue());
+    }
+
+    public void update(Member member) {
+        jdbcTemplate.update(
+                "update MEMBER set NAME = ?, PASSWORD = ?, ROLE = ? where EMAIL = ?",
+                member.getName(), member.getPassword(), member.getRole(), member.getEmail());
     }
 }

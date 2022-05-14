@@ -24,4 +24,13 @@ public class MemberService {
         }
         else return null;
     }
+
+    public Member update(String email, String name, String pwd, String role){
+        Member updatemember = memberDao.selectByEmail(email);
+        updatemember.setName(name);
+        updatemember.setPassword(pwd);
+        updatemember.setRole(role);
+        memberDao.update(updatemember);
+        return updatemember;
+    }
 }
