@@ -24,17 +24,17 @@ public class MemberDao {
 
     public Member selectByEmail(String email) {
         List<Member> results = jdbcTemplate.query(
-                "select * from member where email = ?",
+                "select * from MEMBER_TB where EMAIL = ?",
                 new RowMapper<Member>() {
                     @Override
                     public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
                         Member member = new Member(
-                                rs.getString("email"),
-                                rs.getString("password"),
-                                rs.getString("name"),
-                                rs.getString("role"),
-                                rs.getTimestamp("regdate"));
-                        member.setId(rs.getLong("id"));
+                                rs.getString("EMAIL"),
+                                rs.getString("PASSWORD"),
+                                rs.getString("NAME"),
+                                rs.getString("ROLE"),
+                                rs.getTimestamp("REGDATE"));
+                        member.setId(rs.getLong("ID"));
                         return member;
                     }
                 }, email);
@@ -51,7 +51,7 @@ public class MemberDao {
                             throws SQLException
                     {
                         PreparedStatement pstmt = con.prepareStatement(
-                                "insert into MEMBER (email, password, name , role , regdate) values (?, ?, ?, ?, ?)",
+                                "insert into MEMBER_TB (EMAIL, PASSWORD, NAME , ROLE , REGDATE) values (?, ?, ?, ?, ?)",
                                 new String[] {"ID"} );
                         pstmt.setString(1, member.getEmail());
                         pstmt.setString(2, member.getPassword());
@@ -68,7 +68,7 @@ public class MemberDao {
 
     public void update(Member member) {
         jdbcTemplate.update(
-                "update MEMBER set NAME = ?, PASSWORD = ?, ROLE = ? where EMAIL = ?",
+                "update MEMBER_TB set NAME = ?, PASSWORD = ?, ROLE = ? where EMAIL = ?",
                 member.getName(), member.getPassword(), member.getRole(), member.getEmail());
     }
 }

@@ -3,7 +3,9 @@ package com.example.convenience_pos_system.service;
 import com.example.convenience_pos_system.dao.MemberDao;
 import com.example.convenience_pos_system.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MemberService {
     final MemberDao memberDao;
 
