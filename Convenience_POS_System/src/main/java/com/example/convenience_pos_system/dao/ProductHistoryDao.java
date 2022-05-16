@@ -50,7 +50,7 @@ public class ProductHistoryDao {
         productHistory.setId(keyValue.longValue());
     }
 
-    public List<ProductHistory> selectByPid(int pid) {
+    public List<ProductHistory> selectByPid(Long pid) {
         List<ProductHistory> results = jdbcTemplate.query(
                 "select * from PRODUCT_HISTORY_TB where PID = ?",
                 new RowMapper<ProductHistory>() {

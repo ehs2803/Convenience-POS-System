@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Heroic Features - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/bootstrap/assets/favicon.ico"/>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/bootstrap/css/styles.css" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- Responsive navbar-->
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+
+
+<div>
+    <table class="table">
+        <tr>
+            <th>처리직원ID</th>
+            <th>제품이름</th>
+            <th>가격</th>
+            <th>수량</th>
+            <th>날짜 시간</th>
+            <th>방법</th>
+        </tr>
+        <tr th:each="productHistory : ${productHistories}">
+            <td th:text="${productHistory.getMid()}"></td>
+            <td th:text="${productHistory.getName()}"></td>
+            <td th:text="${productHistory.getPrice()}"></td>
+            <td th:text="${productHistory.getQuantity()}"></td>
+            <td th:text="${productHistory.getTime()}"></td>
+            <td th:text="${productHistory.getMethod()}"></td>
+        </tr>
+    </table>
+</div>
+
+<!-- Footer-->
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/bootstrap/js/scripts.js"></script>
+</body>
+</html>

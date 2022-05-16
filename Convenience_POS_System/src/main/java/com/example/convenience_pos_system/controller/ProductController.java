@@ -2,6 +2,7 @@ package com.example.convenience_pos_system.controller;
 
 import com.example.convenience_pos_system.domain.Member;
 import com.example.convenience_pos_system.domain.Product;
+import com.example.convenience_pos_system.domain.ProductHistory;
 import com.example.convenience_pos_system.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
@@ -70,5 +71,43 @@ public class ProductController {
         productService.addQuantity(product, addQuantity, loginMember.getId());
 
         return "redirect:/product/add";
+    }
+
+    @GetMapping(value = "/list")
+    public String productList(Model model){
+        List<Product> products = productService.findAll();
+        model.addAttribute("products", products);
+
+        return "product/productList";
+    }
+
+    @GetMapping(value = "/list/{productId}")
+    public String productHistoryList(@PathVariable Long productId, Model model){
+        List<ProductHistory> productHistories = productService.findProductHistoryById(productId);
+        model.addAttribute("productHistories", productHistories);
+
+        return "product/productHistoryList";
+    }
+
+    @GetMapping(value = "/update")
+    public String updateList(Model model){
+        List<Product> products = productService.findAll();
+        model.addAttribute("products", products);
+
+        return "product/updateList";
+    }
+
+    @PostMapping(value = "/update/")
+    public String updateProduct(@ModelAttribute Product product){
+        productService.UpdateProduct(product);
+        return "redirect:/product/update";
+    }
+
+    @GetMapping(value = "/update/{productId}")
+    public String updateProductForm(@PathVariable Long productId, Model model){
+        Product product = productService.findById(productId);
+        model.addAttribute("product",product);
+
+        return "product/updateProductForm";
     }
 }
