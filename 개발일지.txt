@@ -38,3 +38,7 @@
 - 로그인 시 url에 jsessionid가 나타나는 문제를 해결하기 위해 application.properties에 server.servlet.session.tracking-modes=cookie 추가
 - 새로운 제품 추가하는거 구현, 테스트 완료 - > product table, producthistory table에 저장 완료.
 - 저장한 제품 표형태로 출력 성공.
+
+============================================================
+2022.05.16.월
+- 재고 입고 기능은 구현함. 기존 제품 수량 추가 입고하기 기능 구현. 테스트 완료.

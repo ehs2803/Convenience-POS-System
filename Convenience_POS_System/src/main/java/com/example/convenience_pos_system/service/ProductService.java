@@ -26,6 +26,10 @@ public class ProductService {
         return productDao.selectAll();
     }
 
+    public Product findById(Long id){
+        return productDao.selectById(id);
+    }
+
     public void addNewProduct(Product product, Long mid){
         ProductHistory productHistory = new ProductHistory(mid,product.getName(),
                 product.getPrice(), product.getQuantity(),"BUY");
@@ -34,8 +38,12 @@ public class ProductService {
         productHistoryDao.insert(productHistory);
     }
 
-    public void addQuantity(){
-
+    public void addQuantity(Product product, int addQuantity, Long mid){
+        ProductHistory productHistory = new ProductHistory(mid,product.getName(),
+                product.getPrice(), addQuantity,"BUY");
+        productDao.update(product);
+        productHistory.setPid(product.getId());
+        productHistoryDao.insert(productHistory);
     }
 
     public void UpdateProduct(){

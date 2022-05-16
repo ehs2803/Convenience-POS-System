@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +43,31 @@ public class ProductController {
         Member loginMember = (Member) session.getAttribute("loginMember");
 
         productService.addNewProduct(product, loginMember.getId());
+
+        return "redirect:/product/add";
+    }
+
+    @GetMapping(value = "/add/{productId}")
+    public String addProductQuantityForm(@PathVariable Long productId, Model model){
+        Product product = productService.findById(productId);
+        model.addAttribute("product", product);
+        return "product/addProductQuantity";
+    }
+
+    @PostMapping(value = "/add/{productId}")
+    public String addProductQuantity(HttpServletRequest request){
+        int addQuantity = Integer.parseInt(request.getParameter("addQuantity"));
+        Long id = Long.valueOf(request.getParameter("id"));
+
+        Product product = productService.findById(id);
+        int addedQuantity = product.getQuantity()+addQuantity;
+        product.setQuantity(addedQuantity);
+
+        //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession(true);
+        Member loginMember = (Member) session.getAttribute("loginMember");
+
+        productService.addQuantity(product, addQuantity, loginMember.getId());
 
         return "redirect:/product/add";
     }

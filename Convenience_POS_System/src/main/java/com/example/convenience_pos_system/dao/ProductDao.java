@@ -55,6 +55,25 @@ public class ProductDao {
                 product.getName(), product.getPrice(), product.getQuantity(), product.getCode());
     }
 
+    public Product selectById(Long id) {
+        List<Product> results = jdbcTemplate.query(
+                "select * from PRODUCT_TB where ID = ?",
+                new RowMapper<Product>() {
+                    @Override
+                    public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        Product member = new Product(
+                                rs.getString("CODE"),
+                                rs.getString("NAME"),
+                                rs.getInt("PRICE"),
+                                rs.getInt("QUANTITY"));
+                        member.setId(rs.getLong("ID"));
+                        return member;
+                    }
+                }, id);
+
+        return results.isEmpty() ? null : results.get(0);
+    }
+
     public Product selectByCode(String code) {
         List<Product> results = jdbcTemplate.query(
                 "select * from PRODUCT_TB where CODE = ?",

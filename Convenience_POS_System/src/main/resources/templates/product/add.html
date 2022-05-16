@@ -35,7 +35,7 @@
             <td th:text="${product.getName()}"></td>
             <td th:text="${product.getPrice()}"></td>
             <td th:text="${product.getQuantity()}"></td>
-            <td><a href="#" class="btn btn-primary btn-lg">추가하기</a></td>
+            <td><a th:href="@{/product/add/{productId}(productId=${product.getId()})}" th:text="추가하기">추가하기</a></td>
         </tr>
     </table>
 </div>
