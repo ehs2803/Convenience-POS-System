@@ -5,6 +5,7 @@ import com.example.convenience_pos_system.controller.ProductController;
 import com.example.convenience_pos_system.dao.MemberDao;
 import com.example.convenience_pos_system.dao.ProductDao;
 import com.example.convenience_pos_system.dao.ProductHistoryDao;
+import com.example.convenience_pos_system.dao.ProductStateHistoryDao;
 import com.example.convenience_pos_system.service.MemberService;
 import com.example.convenience_pos_system.service.ProductService;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +29,9 @@ public class JavaConfig {
     }
 
     @Bean
-    public ProductService productService(){ return new ProductService(productDao(), productHistoryDao());}
+    public ProductService productService(){
+        return new ProductService(productDao(), productHistoryDao(), productStateHistoryDao());
+    }
 
     @Bean
     public MemberService memberService(){
@@ -45,6 +48,11 @@ public class JavaConfig {
 
     @Bean
     public ProductHistoryDao productHistoryDao() { return new ProductHistoryDao(dataSource()); }
+
+    @Bean
+    public ProductStateHistoryDao productStateHistoryDao(){
+        return new ProductStateHistoryDao(dataSource());
+    }
 
     @Bean
     public DataSource dataSource() {

@@ -33,14 +33,15 @@ public class ProductDao {
                     throws SQLException {
                 // 파라미터로 전달받은 Connection을 이용해서 PreparedStatement 생성
                 PreparedStatement pstmt = con.prepareStatement(
-                        "insert into PRODUCT_TB (CODE, NAME, PRICE, QUANTITY) " +
-                                "values (?, ?, ?, ?)",
+                        "insert into PRODUCT_TB (CODE, NAME, PRICE, QUANTITY, SELL) " +
+                                "values (?, ?, ?, ?, ?)",
                         new String[] { "ID" });
                 // 인덱스 파라미터 값 설정
                 pstmt.setString(1, product.getCode());
                 pstmt.setString(2, product.getName());
                 pstmt.setInt(3, product.getPrice());
                 pstmt.setInt(4, product.getQuantity());
+                pstmt.setInt(5, product.getSell());
                 // 생성한 PreparedStatement 객체 리턴
                 return pstmt;
             }
@@ -65,7 +66,8 @@ public class ProductDao {
                                 rs.getString("CODE"),
                                 rs.getString("NAME"),
                                 rs.getInt("PRICE"),
-                                rs.getInt("QUANTITY"));
+                                rs.getInt("QUANTITY"),
+                                rs.getInt("SELL"));
                         member.setId(rs.getLong("ID"));
                         return member;
                     }
@@ -84,7 +86,8 @@ public class ProductDao {
                                 rs.getString("CODE"),
                                 rs.getString("NAME"),
                                 rs.getInt("PRICE"),
-                                rs.getInt("QUANTITY"));
+                                rs.getInt("QUANTITY"),
+                                rs.getInt("SELL"));
                         member.setId(rs.getLong("ID"));
                         return member;
                     }
@@ -100,7 +103,8 @@ public class ProductDao {
                             rs.getString("CODE"),
                             rs.getString("NAME"),
                             rs.getInt("PRICE"),
-                            rs.getInt("QUANTITY"));
+                            rs.getInt("QUANTITY"),
+                            rs.getInt("SELL"));
                     product.setId(rs.getLong("ID"));
                     return product;
                 });
@@ -111,5 +115,11 @@ public class ProductDao {
         Integer count = jdbcTemplate.queryForObject(
                 "select count(*) from PRODUCT", Integer.class);
         return count;
+    }
+
+    public void updateSellState(Long id, int state) {
+        jdbcTemplate.update(
+                "update PRODUCT_TB set SELL = ? where ID = ?",
+                state, id);
     }
 }

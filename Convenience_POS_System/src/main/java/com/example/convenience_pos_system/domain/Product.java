@@ -6,12 +6,14 @@ public class Product {
     private String name;
     private int price;
     private int quantity;
+    private int sell;
 
-    public Product(String code, String name, int price, int quantity) {
+    public Product(String code, String name, int price, int quantity, int sell) {
         this.code = code;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.sell = sell;
     }
 
     public Long getId() {
@@ -34,6 +36,10 @@ public class Product {
         return quantity;
     }
 
+    public int getSell(){
+        return sell;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -53,4 +59,6 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public void setSell(int sell) { this.sell = sell; }
 }

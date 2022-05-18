@@ -26,12 +26,26 @@
             <th>제품이름</th>
             <th>가격</th>
             <th>수정하기</th>
+            <th>수정이력</th>
+            <th>판매상태</th>
+            <th>판매상태수정</th>
         </tr>
         <tr th:each="product : ${products}">
             <td th:text="${product.getCode()}"></td>
             <td th:text="${product.getName()}"></td>
             <td th:text="${product.getPrice()}"></td>
             <td><a th:href="@{/product/update/{productId}(productId=${product.getId()})}" th:text="수정하기">수정하기</a></td>
+            <td><a th:href="@{/product/update/detail/{productId}(productId=${product.getId()})}" th:text="수정이력">수정이력</a></td>
+            <td>
+                <th:block th:if="${product.getSell() eq 1}" th:text="판매중"/>
+                <th:block th:if="${product.getSell() eq 0}" th:text="판매중지" />
+            </td>
+            <td>
+                <form method="post" th:action="@{/product/update/state/{productId}(productId=${product.getId()})}">
+                    <button th:if="${product.getSell() eq 1}" th:text="판매중지하기"></button>
+                    <button th:if="${product.getSell() eq 0}" th:text="판매재개하기"></button>
+                </form>
+            </td>
         </tr>
     </table>
 </div>

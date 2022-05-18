@@ -36,6 +36,7 @@
 <div class="container">
     <h4 class="mb-3">제품 정보 입력</h4>
     <form action="/product/update/" method="post">
+        <input type="text" class="form-control" id="sell" name="sell" readonly hidden th:value="${product.getSell()}">
         <input type="text" class="form-control" id="id" name="id" readonly hidden th:value="${product.getId()}">
         <input type="text" class="form-control" id="quantity" name="quantity" readonly hidden th:value="${product.getQuantity()}">
         <div class="row mb-3">

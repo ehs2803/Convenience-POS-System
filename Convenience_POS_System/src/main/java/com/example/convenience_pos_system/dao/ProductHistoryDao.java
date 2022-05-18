@@ -40,7 +40,7 @@ public class ProductHistoryDao {
                 pstmt.setString(3, productHistory.getName());
                 pstmt.setInt(4, productHistory.getPrice());
                 pstmt.setInt(5, productHistory.getQuantity());
-                pstmt.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+                pstmt.setTimestamp(6, Timestamp.valueOf(productHistory.getTime()));
                 pstmt.setString(7, productHistory.getMethod());
                 // 생성한 PreparedStatement 객체 리턴
                 return pstmt;

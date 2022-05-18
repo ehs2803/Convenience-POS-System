@@ -3,6 +3,7 @@ package com.example.convenience_pos_system.controller;
 import com.example.convenience_pos_system.domain.Member;
 import com.example.convenience_pos_system.domain.Product;
 import com.example.convenience_pos_system.domain.ProductHistory;
+import com.example.convenience_pos_system.domain.ProductStateHistory;
 import com.example.convenience_pos_system.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
@@ -98,8 +99,12 @@ public class ProductController {
     }
 
     @PostMapping(value = "/update/")
-    public String updateProduct(@ModelAttribute Product product){
-        productService.UpdateProduct(product);
+    public String updateProduct(@ModelAttribute Product product, HttpServletRequest request){
+        //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession(true);
+        Member loginMember = (Member) session.getAttribute("loginMember");
+
+        productService.UpdateProduct(product, loginMember.getId());
         return "redirect:/product/update";
     }
 
@@ -109,5 +114,23 @@ public class ProductController {
         model.addAttribute("product",product);
 
         return "product/updateProductForm";
+    }
+
+    @GetMapping(value = "/update/detail/{productId}")
+    public String detailUpdate(@PathVariable Long productId, Model model){
+        List<ProductStateHistory> productStateHistories = productService.getUpdateDetailByPid(productId);
+        model.addAttribute("detailUpdates", productStateHistories);
+
+        return "product/productUpdateDetail";
+    }
+
+    @PostMapping(value = "/update/state/{productId}")
+    public String updateProductSellState(@PathVariable Long productId, HttpServletRequest request){
+        //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession(true);
+        Member loginMember = (Member) session.getAttribute("loginMember");
+
+        productService.updateSellState(productId, loginMember.getId());
+        return "redirect:/product/update";
     }
 }
