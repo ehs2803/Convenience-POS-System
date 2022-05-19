@@ -1,17 +1,27 @@
 package com.example.convenience_pos_system.service;
 
 import com.example.convenience_pos_system.dao.MemberDao;
+import com.example.convenience_pos_system.dao.ProductDao;
+import com.example.convenience_pos_system.dao.ProductHistoryDao;
+import com.example.convenience_pos_system.dao.ProductStateHistoryDao;
 import com.example.convenience_pos_system.domain.Member;
+import com.example.convenience_pos_system.domain.ProductHistory;
+import com.example.convenience_pos_system.domain.ProductStateHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MemberService {
     final MemberDao memberDao;
+    final ProductHistoryDao productHistoryDao;
+    final ProductStateHistoryDao productStateHistoryDao;
 
-    @Autowired
-    public MemberService(MemberDao memberDao) {
+    public MemberService(MemberDao memberDao, ProductHistoryDao productHistoryDao, ProductStateHistoryDao productStateHistoryDao) {
         this.memberDao = memberDao;
+        this.productHistoryDao = productHistoryDao;
+        this.productStateHistoryDao = productStateHistoryDao;
     }
 
     public void signup(Member member){
@@ -34,5 +44,21 @@ public class MemberService {
         updatemember.setRole(role);
         memberDao.update(updatemember);
         return updatemember;
+    }
+
+    public List<Member> findAll(){
+        return memberDao.selectAll();
+    }
+
+    public List<ProductHistory> findProductHistoriesByMemberId(Long id){
+        return productHistoryDao.selectByMid(id);
+    }
+
+    public List<ProductStateHistory> findProductStateHistoriesByMemberId(Long id){
+        return productStateHistoryDao.selectByMid(id);
+    }
+
+    public Member findbyId(Long id){
+        return memberDao.selectById(id);
     }
 }

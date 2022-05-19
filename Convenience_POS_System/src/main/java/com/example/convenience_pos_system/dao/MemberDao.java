@@ -1,6 +1,7 @@
 package com.example.convenience_pos_system.dao;
 
 import com.example.convenience_pos_system.domain.Member;
+import com.example.convenience_pos_system.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -42,6 +43,25 @@ public class MemberDao {
         return results.isEmpty() ? null : results.get(0);
     }
 
+    public Member selectById(Long id) {
+        List<Member> results = jdbcTemplate.query(
+                "select * from MEMBER_TB where ID = ?",
+                new RowMapper<Member>() {
+                    @Override
+                    public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        Member member = new Member(
+                                rs.getString("EMAIL"),
+                                rs.getString("PASSWORD"),
+                                rs.getString("NAME"),
+                                rs.getString("ROLE"),
+                                rs.getTimestamp("REGDATE"));
+                        member.setId(rs.getLong("ID"));
+                        return member;
+                    }
+                }, id);
+        return results.isEmpty() ? null : results.get(0);
+    }
+
     public void insert(final Member member) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
@@ -70,5 +90,20 @@ public class MemberDao {
         jdbcTemplate.update(
                 "update MEMBER_TB set NAME = ?, PASSWORD = ?, ROLE = ? where EMAIL = ?",
                 member.getName(), member.getPassword(), member.getRole(), member.getEmail());
+    }
+
+    public List<Member> selectAll() {
+        List<Member> results = jdbcTemplate.query("select * from MEMBER_TB",
+                (ResultSet rs, int rowNum) -> {
+                    Member member = new Member(
+                            rs.getString("EMAIL"),
+                            rs.getString("PASSWORD"),
+                            rs.getString("NAME"),
+                            rs.getString("ROLE"),
+                            rs.getTimestamp("REGDATE"));
+                    member.setId(rs.getLong("ID"));
+                    return member;
+                });
+        return results;
     }
 }

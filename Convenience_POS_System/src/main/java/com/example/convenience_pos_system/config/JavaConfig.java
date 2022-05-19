@@ -35,7 +35,7 @@ public class JavaConfig {
 
     @Bean
     public MemberService memberService(){
-        return new MemberService(memberDao());
+        return new MemberService(memberDao(), productHistoryDao(), productStateHistoryDao());
     }
 
     @Bean

@@ -92,4 +92,27 @@ public class ProductStateHistoryDao {
 
         return results.isEmpty() ? null : results;
     }
+
+    public List<ProductStateHistory> selectByMid(Long mid) {
+        List<ProductStateHistory> results = jdbcTemplate.query(
+                "select * from PRODUCT_STATE_HISTORY_TB where MID = ?",
+                new RowMapper<ProductStateHistory>() {
+                    @Override
+                    public ProductStateHistory mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        ProductStateHistory productStateHistory = new ProductStateHistory(
+                                rs.getLong("MID"),
+                                rs.getLong("PID"),
+                                rs.getString("NAME"),
+                                rs.getString("NEWNAME"),
+                                rs.getInt("PRICE"),
+                                rs.getInt("NEWPRICE"),
+                                rs.getString("STATE"),
+                                rs.getTimestamp("DATETIME").toLocalDateTime());
+                        productStateHistory.setId(rs.getLong("ID"));
+                        return productStateHistory;
+                    }
+                }, mid);
+
+        return results.isEmpty() ? null : results;
+    }
 }

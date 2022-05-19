@@ -2,6 +2,8 @@ package com.example.convenience_pos_system.controller;
 
 import com.example.convenience_pos_system.domain.LoginForm;
 import com.example.convenience_pos_system.domain.Member;
+import com.example.convenience_pos_system.domain.ProductHistory;
+import com.example.convenience_pos_system.domain.ProductStateHistory;
 import com.example.convenience_pos_system.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/member")
@@ -81,9 +84,32 @@ public class MemberController {
         HttpSession session = request.getSession(true);
         Member loginmember = (Member) session.getAttribute("loginMember");
 
+        List<ProductHistory> productHistories = memberService.findProductHistoriesByMemberId(loginmember.getId());
+        List<ProductStateHistory> productStateHistories = memberService.findProductStateHistoriesByMemberId(loginmember.getId());
+
         model.addAttribute("loginmember",loginmember);
+        model.addAttribute("productHistories", productHistories);
+        model.addAttribute("productStateHistories", productStateHistories);
+
+        if(loginmember.getRole().equals("MANAGER")){
+            List<Member> members= memberService.findAll();
+            model.addAttribute("members", members);
+        }
 
         return "/member/memberDetail";
+    }
+
+    @GetMapping(value = "/detail/{memberId}")
+    public String detailMemberId(@PathVariable Long memberId, Model model){
+        Member member = memberService.findbyId(memberId);
+        List<ProductHistory> productHistories = memberService.findProductHistoriesByMemberId(memberId);
+        List<ProductStateHistory> productStateHistories = memberService.findProductStateHistoriesByMemberId(memberId);
+
+        model.addAttribute("member",member);
+        model.addAttribute("productHistories", productHistories);
+        model.addAttribute("productStateHistories", productStateHistories);
+
+        return "member/memberDetailOther";
     }
 
     @GetMapping(value = "/update")

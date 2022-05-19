@@ -36,11 +36,10 @@
     <div class="content">
         <h1>회원 정보</h1>
         <hr>
-        <h5>[[${loginmember.email}]]</h5><br>
-        <h5>[[${loginmember.name}]]</h5><br>
-        <h5 th:text="${loginmember.getRole()}">[[${loginmember.role}]]</h5><br>
-        <h5>[[${loginmember.registerDate}]]</h5><br>
-        <a href="/member/update" class="btn btn-primary btn-lg">정보 수정하기</a><br>
+        <h5>[[${member.email}]]</h5><br>
+        <h5>[[${member.name}]]</h5><br>
+        <h5 th:text="${member.getRole()}">[[${member.role}]]</h5><br>
+        <h5>[[${member.registerDate}]]</h5><br>
         <hr>
 
         <h1>상품 변경 조회</h1>
@@ -85,23 +84,6 @@
             </tr>
         </table>
 
-        <th:block th:if="${loginmember.getRole() == 'MANAGER'}">
-            <h1>계정정보</h1>
-            <table class="table">
-                <tr>
-                    <th>email</th>
-                    <th>이름</th>
-                    <th>직책</th>
-                    <th>상세보기</th>
-                </tr>
-                <tr th:each="member : ${members}" th:if="${member.getId() != loginmember.getId()}">
-                    <th th:text="${member.getEmail()}"/>
-                    <th th:text="${member.getName()}"/>
-                    <th th:text="${member.getRole()}"/>
-                    <td><a th:href="@{/member/detail/{memberId}(memberId=${member.getId()})}" th:text="상세보기">상세보기</a></td>
-                </tr>
-            </table>
-        </th:block>
     </div>
 
 </div>

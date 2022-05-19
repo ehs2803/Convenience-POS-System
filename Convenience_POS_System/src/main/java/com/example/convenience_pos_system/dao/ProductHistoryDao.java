@@ -72,7 +72,7 @@ public class ProductHistoryDao {
         return results.isEmpty() ? null : results;
     }
 
-    public List<ProductHistory> selectByMid(int mid) {
+    public List<ProductHistory> selectByMid(Long mid) {
         List<ProductHistory> results = jdbcTemplate.query(
                 "select * from PRODUCT_HISTORY_TB where MID = ?",
                 new RowMapper<ProductHistory>() {
