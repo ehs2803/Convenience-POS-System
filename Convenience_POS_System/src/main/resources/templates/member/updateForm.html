@@ -10,74 +10,80 @@
     <link href="/bootstrap/css/styles.css" rel="stylesheet" />
     <style>
         body, html{
-            width: 100%;
+            margin: 0;
+            padding: 0;
             height: 100%;
         }
-        .container {
-            width: 70%;
-            height: 100%;
+        #body-wrapper {
+            min-height: 100%;
+            position: relative;
         }
-        .field-error {
-            border-color: #dc3545;
-            color: #dc3545;
+        #content{
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 100px;
+            padding-bottom: 300px;
         }
     </style>
 </head>
 <body>
-<!-- Responsive navbar-->
-<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 
-<div class="py-5 text-center">
-    <h2>회원 가입</h2>
-</div>
-
-<div class="container">
-    <h4 class="mb-3">회원 정보 입력</h4>
-    <form action="/member/update" method="post">
-        <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">이메일</label>
-            <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3" name="email"
-                       th:value="${loginmember.getEmail()}" readonly>
-            </div>
+<div id="body-wrapper">
+    <!-- Responsive navbar-->
+    <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+    <div id="content">
+        <div class="py-5 text-center">
+            <h2>회원 가입</h2>
         </div>
-        <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">비밀번호</label>
-            <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3" name="password"
-                       th:value="${loginmember.getPassword()}">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="name" class="col-sm-2 col-form-label">이름</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="name" name="name" th:value="${loginmember.getName()}">
-            </div>
-        </div>
-        <fieldset class="row mb-3">
-            <legend class="col-form-label col-sm-2 pt-0">직책(ROLE)</legend>
-            <div class="col-sm-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="role" id="gridRadios1" value="MANAGER"
-                           th:checked="${loginmember.getRole().toString() eq 'MANAGER'}">
-                    <label class="form-check-label" for="gridRadios1">
-                        매니저
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="role" id="gridRadios2" value="EMPLOYEE"
-                           th:checked="${loginmember.getRole().toString() eq 'EMPLOYEE'}">
-                    <label class="form-check-label" for="gridRadios2">
-                        사원
-                    </label>
+        <h4 class="mb-3">회원 정보 입력</h4>
+        <form action="/member/update" method="post">
+            <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">이메일</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="inputEmail3" name="email"
+                           th:value="${loginmember.getEmail()}" readonly>
                 </div>
             </div>
-        </fieldset>
-        <button type="submit" class="btn btn-primary">Sign in</button>
-    </form>
+            <div class="row mb-3">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">비밀번호</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword3" name="password"
+                           th:value="${loginmember.getPassword()}">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="name" class="col-sm-2 col-form-label">이름</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="name" name="name" th:value="${loginmember.getName()}">
+                </div>
+            </div>
+            <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-2 pt-0">직책(ROLE)</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="role" id="gridRadios1" value="MANAGER"
+                               th:checked="${loginmember.getRole().toString() eq 'MANAGER'}">
+                        <label class="form-check-label" for="gridRadios1">
+                            매니저
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="role" id="gridRadios2" value="EMPLOYEE"
+                               th:checked="${loginmember.getRole().toString() eq 'EMPLOYEE'}">
+                        <label class="form-check-label" for="gridRadios2">
+                            사원
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+
+    </div>
+    <!-- Footer-->
+    <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </div>
-<!-- Footer-->
-<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+
 
 </body>
 </html>

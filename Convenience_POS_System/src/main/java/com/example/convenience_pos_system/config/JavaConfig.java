@@ -2,12 +2,11 @@ package com.example.convenience_pos_system.config;
 
 import com.example.convenience_pos_system.controller.MemberController;
 import com.example.convenience_pos_system.controller.ProductController;
-import com.example.convenience_pos_system.dao.MemberDao;
-import com.example.convenience_pos_system.dao.ProductDao;
-import com.example.convenience_pos_system.dao.ProductHistoryDao;
-import com.example.convenience_pos_system.dao.ProductStateHistoryDao;
+import com.example.convenience_pos_system.controller.SaleController;
+import com.example.convenience_pos_system.dao.*;
 import com.example.convenience_pos_system.service.MemberService;
 import com.example.convenience_pos_system.service.ProductService;
+import com.example.convenience_pos_system.service.SaleService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -29,13 +28,23 @@ public class JavaConfig {
     }
 
     @Bean
-    public ProductService productService(){
-        return new ProductService(productDao(), productHistoryDao(), productStateHistoryDao());
+    public SaleController saleController(){
+        return new SaleController(saleService());
     }
 
     @Bean
     public MemberService memberService(){
         return new MemberService(memberDao(), productHistoryDao(), productStateHistoryDao());
+    }
+
+    @Bean
+    public ProductService productService(){
+        return new ProductService(productDao(), productHistoryDao(), productStateHistoryDao());
+    }
+
+    @Bean
+    public SaleService saleService(){
+        return new SaleService(saleDao(), saleDetailDao(), saleCartDao());
     }
 
     @Bean
@@ -52,6 +61,21 @@ public class JavaConfig {
     @Bean
     public ProductStateHistoryDao productStateHistoryDao(){
         return new ProductStateHistoryDao(dataSource());
+    }
+
+    @Bean
+    public SaleDao saleDao(){
+        return new SaleDao(dataSource());
+    }
+
+    @Bean
+    public SaleDetailDao saleDetailDao(){
+        return new SaleDetailDao(dataSource());
+    }
+
+    @Bean
+    public SaleCartDao saleCartDao(){
+        return new SaleCartDao(dataSource());
     }
 
     @Bean

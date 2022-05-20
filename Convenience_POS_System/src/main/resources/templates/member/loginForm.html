@@ -11,27 +11,27 @@
     <link href="/bootstrap/css/styles.css" rel="stylesheet" />
     <style>
         body, html{
-            width: 100%;
+            margin: 0;
+            padding: 0;
             height: 100%;
         }
-        .container {
-            width: 70%;
-            height: 100%;
+        #body-wrapper {
+            min-height: 100%;
+            position: relative;
         }
-
-        .field-error {
-            border-color: #dc3545;
-            color: #dc3545;
+        #content{
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 100px;
+            padding-bottom: 300px;
         }
     </style>
 </head>
 <body>
 
-
-<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
-<div class="container">
-    <!-- Responsive navbar-->
-
+<div id="body-wrapper">
+    <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+    <div id="content">
         <div class="py-5 text-center">
             <h2>로그인</h2>
         </div>
@@ -51,8 +51,12 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+    </div>
+
+
+    <!-- Footer-->
+    <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </div>
-<!-- Footer-->
-<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+
 </body>
 </html>
