@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Heroic Features - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/bootstrap/assets/favicon.ico"/>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/bootstrap/css/styles.css" rel="stylesheet"/>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #body-wrapper {
+            min-height: 100%;
+            position: relative;
+        }
+
+        #content {
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 100px;
+            padding-bottom: 300px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="body-wrapper">
+    <!-- Responsive navbar-->
+    <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+    <div id="content">
+
+        <div class="container">
+            <div class="row">
+                <div style="overflow-y: scroll; width:50%; height:500px;">
+                    <div th:each="product : ${productList}" th:if="${product.getSell() eq 1}" class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${product.getName()}"></h5>
+                            상품 코드 : <p class="card-text" th:text="${product.getCode()}"></p>
+                            상품 가격 : <p class="card-text" th:text="${product.getPrice()}"></p>
+                            재고 수량 : <p class="card-text" th:text="${product.getQuantity()}"></p>
+                            <form method="post" action="/sale/add">
+                                <input type="text" id="pid" name="pid" th:value="${product.getId()}" hidden>
+                                <input type="number" id="quantity" name="quantity"
+                                       min="1" th:max="${product.getQuantity()}" required>
+                                <button type="submit" class="btn btn-primary">추가하기</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div style="overflow-y: scroll; width:50%; height:500px;">
+                    <div th:each="sale : ${saleCartDetailList}" class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${sale.getName()}"></h5>
+                            <p th:text="|제품 가격 : ${sale.getPrice()}|"></p>
+                            <p th:text="|계산 대기 수량 : ${sale.getQuantity()}|"></p>
+                            <p th:text="|총 결제 금액 : ${sale.getPrice()*sale.getQuantity()}원|"></p>
+                            <form th:action="@{'/sale/delete/' + ${sale.getPid()}}" method="post">
+                                <button id="delete-btn">삭제</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div>
+                <a href="/sale/reset" class="btn btn-primary btn-lg">초기화하기</a>
+            </div>
+            <div>
+                <h5 th:text="|총 계산금액 : ${totalCost}|"></h5>
+            </div>
+            <div>
+                <a href="/sale/calculate" class="btn btn-primary btn-lg">계산하기</a>
+            </div>
+        </div>
+
+    </div>
+    <!-- Footer-->
+    <th:block th:replace="fragments/footer :: footerFragment"></th:block>
+
+</div>
+
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/bootstrap/js/scripts.js"></script>
+</body>
+</html>

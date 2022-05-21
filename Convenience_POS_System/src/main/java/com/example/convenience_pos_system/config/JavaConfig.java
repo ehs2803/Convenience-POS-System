@@ -29,7 +29,7 @@ public class JavaConfig {
 
     @Bean
     public SaleController saleController(){
-        return new SaleController(saleService());
+        return new SaleController(saleService(), productService());
     }
 
     @Bean
@@ -44,7 +44,8 @@ public class JavaConfig {
 
     @Bean
     public SaleService saleService(){
-        return new SaleService(saleDao(), saleDetailDao(), saleCartDao());
+        return new SaleService(saleDao(), saleDetailDao(), saleCartDao(), productDao(),
+                productHistoryDao());
     }
 
     @Bean
