@@ -3,10 +3,12 @@ package com.example.convenience_pos_system.config;
 import com.example.convenience_pos_system.controller.MemberController;
 import com.example.convenience_pos_system.controller.ProductController;
 import com.example.convenience_pos_system.controller.SaleController;
+import com.example.convenience_pos_system.controller.StatisticsController;
 import com.example.convenience_pos_system.dao.*;
 import com.example.convenience_pos_system.service.MemberService;
 import com.example.convenience_pos_system.service.ProductService;
 import com.example.convenience_pos_system.service.SaleService;
+import com.example.convenience_pos_system.service.StatisticsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -33,8 +35,13 @@ public class JavaConfig {
     }
 
     @Bean
+    public StatisticsController statisticsController(){
+        return new StatisticsController(statisticsService());
+    }
+
+    @Bean
     public MemberService memberService(){
-        return new MemberService(memberDao(), productHistoryDao(), productStateHistoryDao());
+        return new MemberService(memberDao(), productHistoryDao(), productStateHistoryDao(), saleDao());
     }
 
     @Bean
@@ -46,6 +53,11 @@ public class JavaConfig {
     public SaleService saleService(){
         return new SaleService(saleDao(), saleDetailDao(), saleCartDao(), productDao(),
                 productHistoryDao());
+    }
+
+    @Bean
+    public StatisticsService statisticsService(){
+        return new StatisticsService(productDao(), saleDao(), saleDetailDao());
     }
 
     @Bean

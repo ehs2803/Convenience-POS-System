@@ -47,6 +47,22 @@
         <a href="/member/update" class="btn btn-primary btn-lg">정보 수정하기</a><br>
         <hr>
 
+        <h1>판매 조회</h1>
+        <table class="table">
+            <tr>
+                <th>판매 ID</th>
+                <th>총 판매 가격</th>
+                <th>시간</th>
+                <th>상세보기</th>
+            </tr>
+            <tr th:each="sale : ${sales}">
+                <th th:text="${sale.getId()}"/>
+                <th th:text="${sale.getPrice()}"/>
+                <th th:text="${sale.getDatetime()}"/>
+                <td><a th:href="@{/statistics/sale/{saleId}(saleId=${sale.getId()})}" th:text="상세보기">상세보기</a></td>
+            </tr>
+        </table>
+
         <h1>상품 변경 조회</h1>
         <table class="table">
             <tr>

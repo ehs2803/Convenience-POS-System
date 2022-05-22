@@ -45,9 +45,9 @@
                     <div th:each="product : ${productList}" th:if="${product.getSell() eq 1}" class="card">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${product.getName()}"></h5>
-                            상품 코드 : <p class="card-text" th:text="${product.getCode()}"></p>
-                            상품 가격 : <p class="card-text" th:text="${product.getPrice()}"></p>
-                            재고 수량 : <p class="card-text" th:text="${product.getQuantity()}"></p>
+                            <p th:text="|상품 코드 : ${product.getCode()}|"></p>
+                            <p th:text="|상품 가격 : ${product.getPrice()}|"></p>
+                            <p th:text="|재고 수량 : ${product.getQuantity()}|"></p>
                             <form method="post" action="/sale/add">
                                 <input type="text" id="pid" name="pid" th:value="${product.getId()}" hidden>
                                 <input type="number" id="quantity" name="quantity"
@@ -75,15 +75,13 @@
             </div>
             <br>
             <br>
-            <div>
-                <a href="/sale/reset" class="btn btn-primary btn-lg">초기화하기</a>
-            </div>
+
             <div>
                 <h5 th:text="|총 계산금액 : ${totalCost}|"></h5>
-            </div>
-            <div>
                 <a href="/sale/calculate" class="btn btn-primary btn-lg">계산하기</a>
+                <a href="/sale/reset" class="btn btn-primary btn-lg">초기화하기</a>
             </div>
+
         </div>
 
     </div>

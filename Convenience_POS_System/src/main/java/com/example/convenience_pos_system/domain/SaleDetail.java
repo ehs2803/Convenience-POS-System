@@ -7,6 +7,14 @@ public class SaleDetail {
     private int price;
     private int quantity;
 
+    public SaleDetail(Long sid, Long pid, String name, int price, int quantity) {
+        this.sid = sid;
+        this.pid = pid;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public Long getSid() {
         return sid;
     }

@@ -99,7 +99,7 @@ public class SaleController {
         HttpSession session = request.getSession(true);
         Member loginMember = (Member) session.getAttribute("loginMember");
 
-        List<SaleCart> saleCartList = saleService.getAllCartByMid(loginMember.getId());
+        saleService.sale(loginMember.getId());
 
         return "redirect:/sale";
     }

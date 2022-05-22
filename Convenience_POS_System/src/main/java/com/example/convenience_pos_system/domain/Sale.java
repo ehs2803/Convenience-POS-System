@@ -8,6 +8,12 @@ public class Sale {
     private int price;
     private LocalDateTime datetime;
 
+    public Sale(Long mid, int price, LocalDateTime datetime) {
+        this.mid = mid;
+        this.price = price;
+        this.datetime = datetime;
+    }
+
     public Long getId() {
         return id;
     }

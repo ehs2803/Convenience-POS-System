@@ -1,9 +1,6 @@
 package com.example.convenience_pos_system.controller;
 
-import com.example.convenience_pos_system.domain.LoginForm;
-import com.example.convenience_pos_system.domain.Member;
-import com.example.convenience_pos_system.domain.ProductHistory;
-import com.example.convenience_pos_system.domain.ProductStateHistory;
+import com.example.convenience_pos_system.domain.*;
 import com.example.convenience_pos_system.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -86,10 +83,12 @@ public class MemberController {
 
         List<ProductHistory> productHistories = memberService.findProductHistoriesByMemberId(loginmember.getId());
         List<ProductStateHistory> productStateHistories = memberService.findProductStateHistoriesByMemberId(loginmember.getId());
+        List<Sale> sales = memberService.findByMid(loginmember.getId());
 
         model.addAttribute("loginmember",loginmember);
         model.addAttribute("productHistories", productHistories);
         model.addAttribute("productStateHistories", productStateHistories);
+        model.addAttribute("sales",sales);
 
         if(loginmember.getRole().equals("MANAGER")){
             List<Member> members= memberService.findAll();
@@ -104,10 +103,12 @@ public class MemberController {
         Member member = memberService.findbyId(memberId);
         List<ProductHistory> productHistories = memberService.findProductHistoriesByMemberId(memberId);
         List<ProductStateHistory> productStateHistories = memberService.findProductStateHistoriesByMemberId(memberId);
+        List<Sale> sales = memberService.findByMid(memberId);
 
         model.addAttribute("member",member);
         model.addAttribute("productHistories", productHistories);
         model.addAttribute("productStateHistories", productStateHistories);
+        model.addAttribute("sales",sales);
 
         return "member/memberDetailOther";
     }

@@ -1,10 +1,10 @@
 package com.example.convenience_pos_system.service;
 
 import com.example.convenience_pos_system.dao.*;
-import com.example.convenience_pos_system.domain.Product;
-import com.example.convenience_pos_system.domain.SaleCart;
+import com.example.convenience_pos_system.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -66,7 +66,30 @@ public class SaleService {
         saleCartDao.delete(mid);
     }
 
-    public void sale(){
+    public void sale(Long mid){
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        int totalCost = 0;
+        List<SaleCart> saleCartList = saleCartDao.selectByMid(mid);
 
+        for(int i=0;i<saleCartList.size();i++){
+            Product product = productDao.selectById(saleCartList.get(i).getPid());
+            totalCost += (product.getPrice()*saleCartList.get(i).getQuantity());
+        }
+
+        Sale sale = new Sale(mid, totalCost, currentDateTime);
+        saleDao.insert(sale);
+
+        for(int i=0;i<saleCartList.size();i++){
+            Product product = productDao.selectById(saleCartList.get(i).getPid());
+            SaleDetail saleDetail = new SaleDetail(sale.getId(), product.getId(), product.getName(),
+                    product.getPrice(), saleCartList.get(i).getQuantity());
+            saleDetailDao.insert(saleDetail);
+
+            ProductHistory productHistory = new ProductHistory(product.getId(), mid, product.getName(),
+                    product.getPrice(), saleCartList.get(i).getQuantity(), currentDateTime, "SALE");
+            productHistoryDao.insert(productHistory);
+        }
+
+        saleCartDao.delete(mid);
     }
 }
