@@ -3,6 +3,7 @@ package com.example.convenience_pos_system.service;
 import com.example.convenience_pos_system.dao.ProductDao;
 import com.example.convenience_pos_system.dao.SaleDao;
 import com.example.convenience_pos_system.dao.SaleDetailDao;
+import com.example.convenience_pos_system.domain.Product;
 import com.example.convenience_pos_system.domain.Sale;
 import com.example.convenience_pos_system.domain.SaleDetail;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,13 @@ public class StatisticsService {
 
     public Sale getSaleById(Long id){
         return saleDao.selectById(id);
+    }
+
+    public List<Sale> getSaleByDate(String date){
+        return saleDao.selectByDate(date);
+    }
+
+    public Product getProductByPid(Long pid){
+        return productDao.selectById(pid);
     }
 }

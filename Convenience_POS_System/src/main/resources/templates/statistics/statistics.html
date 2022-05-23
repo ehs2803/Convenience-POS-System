@@ -12,6 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/bootstrap/css/styles.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
         body, html {
             margin: 0;
@@ -33,11 +35,71 @@
     </style>
 </head>
 <body>
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['Task', 'Hours per Day'],
+            ['none', 100]
+        ]);
+
+        var options = {
+            title: 'My Daily Activities'
+        };
+
+        var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
+        //chart1.draw(data, options);
+        chart2.draw(data, options);
+    }
+
+    function getData() {
+        var day = document.getElementById("QuantityDay").value;
+        var productList = [];
+        productList.push(['name', 'cnt']);
+        var datalist;
+        $.ajax({
+            url: '/statistics/sale/day',
+            type: "post",
+            data: {datetime: day, age: 10},
+            dataType: "json",
+            success: function (data){
+                for(var i=0; i<Object.keys(data['products']).length; i++) {
+                    productList.push([data.products[i].name, data.products[i].SellQuantity]);
+
+                }
+                var data = google.visualization.arrayToDataTable(
+                    productList
+                );
+
+                var options = {
+                    title: day + '판매량'
+                };
+                var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
+                chart1.draw(data, options);
+            }
+        });
+
+
+        //productList.push(['과자2',70]);
+        //productList.push(['과자3',70]);
+
+    }
+</script>
 
 <div id="body-wrapper">
     <!-- Responsive navbar-->
     <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
     <div id="content">
+
+        <div id="piechart1" style="width: 900px; height: 500px;">
+        </div>
+        <input type="date" id="QuantityDay">
+        <button onclick="getData()">조회하기</button>
+
+        <div id="piechart2" style="width: 900px; height: 500px;"></div>
 
         <h1>판매 조회</h1>
         <table class="table">
