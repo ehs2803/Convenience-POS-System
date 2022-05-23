@@ -27,10 +27,14 @@
         }
 
         #content {
-            margin-left: 10%;
-            margin-right: 10%;
+            margin-left: 3%;
+            margin-right: 3%;
             margin-top: 100px;
             padding-bottom: 300px;
+        }
+        #chartContent{
+            margin-right: 3%;
+            margin-left: 3%;
         }
     </style>
 </head>
@@ -39,20 +43,60 @@
     google.charts.load('current', {'packages': ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
+    google.charts.load('current', {'packages':['table']});
+    google.charts.setOnLoadCallback(drawTable);
+
     function drawChart() {
 
         var data = google.visualization.arrayToDataTable([
             ['Task', 'Hours per Day'],
-            ['none', 100]
+            ['No Data', 1]
         ]);
 
         var options = {
             title: 'My Daily Activities'
         };
-
+        var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
         var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
-        //chart1.draw(data, options);
+        var chart3 = new google.visualization.PieChart(document.getElementById('piechart3'));
+        var chart4 = new google.visualization.PieChart(document.getElementById('piechart4'));
+        var chart5 = new google.visualization.PieChart(document.getElementById('piechart5'));
+        var chart6 = new google.visualization.PieChart(document.getElementById('piechart6'));
+        chart1.draw(data, options);
         chart2.draw(data, options);
+        chart3.draw(data, options);
+        chart4.draw(data, options);
+        chart5.draw(data, options);
+        chart6.draw(data, options);
+
+    }
+
+    function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', '제품코드');
+        data.addColumn('string', '제품이름');
+        data.addColumn('number', '판매개수');
+        data.addRows([
+            ['Mike',  'a', 1],
+            ['Jim',   'a',  2],
+            ['Alice', 'a', 3],
+            ['Bob',   'a',  4],
+            ['Bob',   'a',  5]
+        ]);
+
+        var table1 = new google.visualization.Table(document.getElementById('table_div1'));
+        var table2 = new google.visualization.Table(document.getElementById('table_div2'));
+        var table3 = new google.visualization.Table(document.getElementById('table_div3'));
+        var table4 = new google.visualization.Table(document.getElementById('table_div4'));
+        var table5 = new google.visualization.Table(document.getElementById('table_div5'));
+        var table6 = new google.visualization.Table(document.getElementById('table_div6'));
+
+        table1.draw(data, {showRowNumber: true, width: '90%', height: '100%'});
+        table2.draw(data, {showRowNumber: true, width: '90%', height: '100%'});
+        table3.draw(data, {showRowNumber: true, width: '90%', height: '100%'});
+        table4.draw(data, {showRowNumber: true, width: '90%', height: '100%'});
+        table5.draw(data, {showRowNumber: true, width: '90%', height: '100%'});
+        table6.draw(data, {showRowNumber: true, width: '90%', height: '100%'});
     }
 
     function getData() {
@@ -65,12 +109,12 @@
             type: "post",
             data: {datetime: day, age: 10},
             dataType: "json",
-            success: function (data){
-                for(var i=0; i<Object.keys(data['products']).length; i++) {
+            success: function (data) {
+                for (var i = 0; i < Object.keys(data['products']).length; i++) {
                     productList.push([data.products[i].name, data.products[i].SellQuantity]);
 
                 }
-                var data = google.visualization.arrayToDataTable(
+                var data_pie = google.visualization.arrayToDataTable(
                     productList
                 );
 
@@ -78,13 +122,29 @@
                     title: day + '판매량'
                 };
                 var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
-                chart1.draw(data, options);
+                chart1.draw(data_pie, options);
+
+                productList_table = [];
+                for (var i = 0; i < 5; i++) {
+                    if(i<Object.keys(data['products']).length){
+                        productList_table.push([data.products[i].code,data.products[i].name,
+                            data.products[i].SellQuantity]);
+                    }
+                    else{
+                        productList_table.push(['-','-',0]);
+                    }
+                }
+                var data_table = new google.visualization.DataTable();
+                data_table.addColumn('string', '제품코드');
+                data_table.addColumn('string', '제품이름');
+                data_table.addColumn('number', '판매개수');
+                data_table.addRows(productList_table);
+
+                var table1 = new google.visualization.Table(document.getElementById('table_div1'));
+
+                table1.draw(data_table, {showRowNumber: true, width: '90%', height: '100%'});
             }
         });
-
-
-        //productList.push(['과자2',70]);
-        //productList.push(['과자3',70]);
 
     }
 </script>
@@ -92,15 +152,60 @@
 <div id="body-wrapper">
     <!-- Responsive navbar-->
     <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
-    <div id="content">
 
-        <div id="piechart1" style="width: 900px; height: 500px;">
+    <div id="chartContent">
+        <div class="row">
+            <div class="col" align="center">
+                <div id="piechart1" style="width: 100%; height: 500px;"></div>
+                <input type="date" id="QuantityDay">
+                <button onclick="getData()" class="btn btn-primary">조회하기</button>
+                <br><br>
+                <div id="table_div1"></div>
+            </div>
+            <div class="col" align="center">
+                <div id="piechart2" style="width: 100%; height: 500px;"></div>
+                <input type="date" id="QuantityWeek">
+                <button onclick="getData()" class="btn btn-primary">조회하기</button>
+                <br><br>
+                <div id="table_div2"></div>
+            </div>
+            <div class="col" align="center">
+                <div id="piechart3" style="width: 100%; height: 500px;"></div>
+                <input type="date" id="QuantityMonth">
+                <button onclick="getData()" class="btn btn-primary">조회하기</button>
+                <br><br>
+                <div id="table_div3"></div>
+            </div>
         </div>
-        <input type="date" id="QuantityDay">
-        <button onclick="getData()">조회하기</button>
+        <hr>
+        <div class="row">
+            <div class="col" align="center">
+                <div id="piechart4" style="width: 100%; height: 500px;"></div>
+                <input type="date" id="PriceDay">
+                <button onclick="getData()" class="btn btn-primary">조회하기</button>
+                <br><br>
+                <div id="table_div4"></div>
+            </div>
+            <div class="col" align="center">
+                <div id="piechart5" style="width: 100%; height: 500px;"></div>
+                <input type="date" id="PriceWeek">
+                <button onclick="getData()" class="btn btn-primary">조회하기</button>
+                <br><br>
+                <div id="table_div5"></div>
+            </div>
+            <div class="col" align="center">
+                <div id="piechart6" style="width: 100%; height: 500px;"></div>
+                <input type="date" id="PriceMonth">
+                <button onclick="getData()" class="btn btn-primary">조회하기</button>
+                <br><br>
+                <div id="table_div6"></div>
+            </div>
+        </div>
+    </div>
 
-        <div id="piechart2" style="width: 900px; height: 500px;"></div>
 
+
+    <div id="content">
         <h1>판매 조회</h1>
         <table class="table">
             <tr>

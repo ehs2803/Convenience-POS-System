@@ -81,7 +81,7 @@ public class StatisticsController {
             List<Long> listKeySet = new ArrayList<>(quantityDay.keySet());
             Collections.sort(listKeySet,
                     (value1, value2) -> (quantityDay.get(value2).compareTo(quantityDay.get(value1))));
-            for(Long key : listKeySet) { System.out.println("key : " + key + " , " + "value : " + quantityDay.get(key)); }
+            //for(Long key : listKeySet) { System.out.println("key : " + key + " , " + "value : " + quantityDay.get(key)); }
 
             List<AjaxProductQuantityPerDay> temp = new ArrayList<>();
             for(Long key : listKeySet){
@@ -105,8 +105,6 @@ public class StatisticsController {
                 ja.add(jObj);
             }
             jo.add("products", ja);
-
-
 
         }
 
