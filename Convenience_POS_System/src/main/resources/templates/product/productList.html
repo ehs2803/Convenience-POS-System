@@ -44,6 +44,7 @@
                     <th>제품이름</th>
                     <th>가격</th>
                     <th>재고수량</th>
+                    <th>판매상태</th>
                     <th>상세정보</th>
                 </tr>
                 <tr th:each="product : ${products}">
@@ -51,6 +52,12 @@
                     <td th:text="${product.getName()}"></td>
                     <td th:text="${product.getPrice()}"></td>
                     <td th:text="${product.getQuantity()}"></td>
+                    <th:block th:if="${product.getSell() eq 1}">
+                        <td><span class="badge rounded-pill bg-primary">판매중</span></td>
+                    </th:block>
+                    <th:block th:unless="${product.getSell() eq 1}">
+                        <td><span class="badge rounded-pill bg-danger">판매중지</span></td>
+                    </th:block>
                     <td><a th:href="@{/product/list/{productId}(productId=${product.getId()})}" th:text="변경이록상세정보">변경이록 상세정보</a></td>
                 </tr>
             </table>

@@ -58,10 +58,12 @@
                 </td>
                 <td><a th:href="@{/product/update/detail/{productId}(productId=${product.getId()})}"
                        th:text="수정이력">수정이력</a></td>
-                <td>
-                    <th:block th:if="${product.getSell() eq 1}" th:text="판매중"/>
-                    <th:block th:if="${product.getSell() eq 0}" th:text="판매중지"/>
-                </td>
+                <th:block th:if="${product.getSell() eq 1}">
+                    <td><span class="badge rounded-pill bg-primary">판매중</span></td>
+                </th:block>
+                <th:block th:unless="${product.getSell() eq 1}">
+                    <td><span class="badge rounded-pill bg-danger">판매중지</span></td>
+                </th:block>
                 <td>
                     <form method="post" th:action="@{/product/update/state/{productId}(productId=${product.getId()})}">
                         <button th:if="${product.getSell() eq 1}" th:text="판매중지하기"></button>
@@ -84,3 +86,4 @@
 <script src="/bootstrap/js/scripts.js"></script>
 </body>
 </html>
+
