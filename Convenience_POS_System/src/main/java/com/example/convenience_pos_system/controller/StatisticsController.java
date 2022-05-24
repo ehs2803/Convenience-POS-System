@@ -13,6 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.time.temporal.WeekFields;
 import java.util.*;
 
 @Controller
@@ -51,64 +55,38 @@ public class StatisticsController {
     public String getSaleDay(@RequestParam Map<String, Object> params)
             throws IOException {
         String date = (String) params.get("datetime");
-        List<Sale> sales = statisticsService.getSaleByDate(date);
-        List<SaleDetail> saleDetails = new ArrayList<>();
+        String mode = (String) params.get("mode");
 
-        JsonObject jo = new JsonObject();
+        return statisticsService.getQuantityData(date,"day");
+    }
 
-        if(sales==null){
-            jo.addProperty("status","NO");
-        }
-        else{
-            for(int i=0;i<sales.size();i++){
-                Long sid = sales.get(i).getId();
-                List<SaleDetail> saleDetailList = statisticsService.getSaleDetailsById(sid);
-                saleDetails.addAll(saleDetailList);
-            }
+    @ResponseBody
+    @PostMapping(value = "/sale/week")
+    public String getSaleWeek(@RequestParam Map<String, Object> params)
+            throws IOException {
+        String date = (String) params.get("datetime");
+        String mode = (String) params.get("mode");
 
-            Map<Long, Integer> quantityDay = new HashMap<>();
-            for(int i=0;i<saleDetails.size();i++){
-                Long pid = saleDetails.get(i).getPid();
-                int quantity = saleDetails.get(i).getQuantity();
-                if(quantityDay.containsKey(pid)){
-                    quantityDay.put(pid, quantityDay.get(pid)+quantity);
-                }
-                else{
-                    quantityDay.put(pid, quantity);
-                }
-            }
+        String [] splits = date.split("-");
+        int year = Integer.parseInt(splits[0]);
+        int weekNumber = Integer.parseInt(splits[1].substring(1));
 
-            List<Long> listKeySet = new ArrayList<>(quantityDay.keySet());
-            Collections.sort(listKeySet,
-                    (value1, value2) -> (quantityDay.get(value2).compareTo(quantityDay.get(value1))));
-            //for(Long key : listKeySet) { System.out.println("key : " + key + " , " + "value : " + quantityDay.get(key)); }
+        LocalDate week = LocalDate.of(year,2,1).with(ChronoField.ALIGNED_WEEK_OF_YEAR, weekNumber);
+        LocalDate startLD = week.with(DayOfWeek.MONDAY);
+        String start = week.with(DayOfWeek.MONDAY).toString();
+        String end = startLD.plusDays(6).toString();
+        String weekDate = start+":"+end;
 
-            List<AjaxProductQuantityPerDay> temp = new ArrayList<>();
-            for(Long key : listKeySet){
-                Product product = statisticsService.getProductByPid(key);
-                AjaxProductQuantityPerDay tempElement = new AjaxProductQuantityPerDay(key, product.getCode(),
-                        product.getName(), product.getPrice(), quantityDay.get(key));
-                temp.add(tempElement);
-            }
+        return statisticsService.getQuantityData(weekDate, "week");
+    }
 
-            jo.addProperty("status","YES");
-            JsonArray ja = new JsonArray();
-            for(Long key : listKeySet){
-                Product product = statisticsService.getProductByPid(key);
+    @ResponseBody
+    @PostMapping(value = "/sale/month")
+    public String getSaleMonth(@RequestParam Map<String, Object> params)
+            throws IOException {
+        String date = (String) params.get("datetime");
+        String mode = (String) params.get("mode");
 
-                JsonObject jObj = new JsonObject();
-                jObj.addProperty("pid", key);
-                jObj.addProperty("code", product.getCode());
-                jObj.addProperty("name", product.getName());
-                jObj.addProperty("price", product.getPrice());
-                jObj.addProperty("SellQuantity", quantityDay.get(key));
-                ja.add(jObj);
-            }
-            jo.add("products", ja);
-
-        }
-
-        return jo.toString();
-        //return new ResponseEntity<>(QuantityPerDay, HttpStatus.OK);
+        return statisticsService.getQuantityData(date,"month");
     }
 }

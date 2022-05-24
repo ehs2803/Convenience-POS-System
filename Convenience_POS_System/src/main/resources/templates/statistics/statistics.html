@@ -99,7 +99,7 @@
         table6.draw(data, {showRowNumber: true, width: '90%', height: '100%'});
     }
 
-    function getData() {
+    function updateChart_quantity_per_day() {
         var day = document.getElementById("QuantityDay").value;
         var productList = [];
         productList.push(['name', 'cnt']);
@@ -107,45 +107,226 @@
         $.ajax({
             url: '/statistics/sale/day',
             type: "post",
-            data: {datetime: day, age: 10},
+            data: {datetime: day, mode: 'quantity'},
             dataType: "json",
             success: function (data) {
-                for (var i = 0; i < Object.keys(data['products']).length; i++) {
-                    productList.push([data.products[i].name, data.products[i].SellQuantity]);
+                if(data.status=='NO'){
+                    productList.push(['No Data',1]);
+                    var data_pie = google.visualization.arrayToDataTable(
+                        productList
+                    );
 
-                }
-                var data_pie = google.visualization.arrayToDataTable(
-                    productList
-                );
+                    var options = {
+                        title: day + ' 판매량'
+                    };
+                    var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
+                    chart1.draw(data_pie, options);
 
-                var options = {
-                    title: day + '판매량'
-                };
-                var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
-                chart1.draw(data_pie, options);
-
-                productList_table = [];
-                for (var i = 0; i < 5; i++) {
-                    if(i<Object.keys(data['products']).length){
-                        productList_table.push([data.products[i].code,data.products[i].name,
-                            data.products[i].SellQuantity]);
-                    }
-                    else{
+                    productList_table = [];
+                    for (var i = 0; i < 5; i++) {
                         productList_table.push(['-','-',0]);
                     }
+                    var data_table = new google.visualization.DataTable();
+                    data_table.addColumn('string', '제품코드');
+                    data_table.addColumn('string', '제품이름');
+                    data_table.addColumn('number', '판매개수');
+                    data_table.addRows(productList_table);
+
+                    var table1 = new google.visualization.Table(document.getElementById('table_div1'));
+
+                    table1.draw(data_table, {showRowNumber: true, width: '90%', height: '100%'});
+
                 }
-                var data_table = new google.visualization.DataTable();
-                data_table.addColumn('string', '제품코드');
-                data_table.addColumn('string', '제품이름');
-                data_table.addColumn('number', '판매개수');
-                data_table.addRows(productList_table);
+                else{
+                    for (var i = 0; i < Object.keys(data['products']).length; i++) {
+                        productList.push([data.products[i].name, data.products[i].SellQuantity]);
 
-                var table1 = new google.visualization.Table(document.getElementById('table_div1'));
+                    }
+                    var data_pie = google.visualization.arrayToDataTable(
+                        productList
+                    );
 
-                table1.draw(data_table, {showRowNumber: true, width: '90%', height: '100%'});
+                    var options = {
+                        title: day + ' 판매량'
+                    };
+                    var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
+                    chart1.draw(data_pie, options);
+
+                    productList_table = [];
+                    for (var i = 0; i < 5; i++) {
+                        if(i<Object.keys(data['products']).length){
+                            productList_table.push([data.products[i].code,data.products[i].name,
+                                data.products[i].SellQuantity]);
+                        }
+                        else{
+                            productList_table.push(['-','-',0]);
+                        }
+                    }
+                    var data_table = new google.visualization.DataTable();
+                    data_table.addColumn('string', '제품코드');
+                    data_table.addColumn('string', '제품이름');
+                    data_table.addColumn('number', '판매개수');
+                    data_table.addRows(productList_table);
+
+                    var table1 = new google.visualization.Table(document.getElementById('table_div1'));
+
+                    table1.draw(data_table, {showRowNumber: true, width: '90%', height: '100%'});
+                }
+
             }
         });
+    }
 
+    function updateChart_quantity_per_week(){
+        var day = document.getElementById("QuantityWeek").value;
+        var productList = [];
+        productList.push(['name', 'cnt']);
+        var datalist;
+        $.ajax({
+            url: '/statistics/sale/week',
+            type: "post",
+            data: {datetime: day, mode: 'quantity'},
+            dataType: "json",
+            success: function (data) {
+                if(data.status=='NO'){
+                    productList.push(['No Data',1]);
+                    var data_pie = google.visualization.arrayToDataTable(
+                        productList
+                    );
+
+                    var options = {
+                        title: data.start + ' ~ ' + data.end + ' 판매량'
+                    };
+                    var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
+                    chart2.draw(data_pie, options);
+
+                    productList_table = [];
+                    for (var i = 0; i < 5; i++) {
+                        productList_table.push(['-','-',0]);
+                    }
+                    var data_table = new google.visualization.DataTable();
+                    data_table.addColumn('string', '제품코드');
+                    data_table.addColumn('string', '제품이름');
+                    data_table.addColumn('number', '판매개수');
+                    data_table.addRows(productList_table);
+
+                    var table2 = new google.visualization.Table(document.getElementById('table_div2'));
+
+                    table2.draw(data_table, {showRowNumber: true, width: '90%', height: '100%'});
+
+                }
+                else{
+                    for (var i = 0; i < Object.keys(data['products']).length; i++) {
+                        productList.push([data.products[i].name, data.products[i].SellQuantity]);
+
+                    }
+                    var data_pie = google.visualization.arrayToDataTable(
+                        productList
+                    );
+
+                    var options = {
+                        title: data.start + ' ~ ' + data.end + ' 판매량'
+                    };
+                    var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
+                    chart2.draw(data_pie, options);
+
+                    productList_table = [];
+                    for (var i = 0; i < 5; i++) {
+                        if(i<Object.keys(data['products']).length){
+                            productList_table.push([data.products[i].code,data.products[i].name,
+                                data.products[i].SellQuantity]);
+                        }
+                        else{
+                            productList_table.push(['-','-',0]);
+                        }
+                    }
+                    var data_table = new google.visualization.DataTable();
+                    data_table.addColumn('string', '제품코드');
+                    data_table.addColumn('string', '제품이름');
+                    data_table.addColumn('number', '판매개수');
+                    data_table.addRows(productList_table);
+
+                    var table2 = new google.visualization.Table(document.getElementById('table_div2'));
+
+                    table2.draw(data_table, {showRowNumber: true, width: '90%', height: '100%'});
+                }
+            }
+        });
+    }
+
+    function updateChart_quantity_per_month(){
+        var day = document.getElementById("QuantityMonth").value;
+        var productList = [];
+        productList.push(['name', 'cnt']);
+        var datalist;
+        $.ajax({
+            url: '/statistics/sale/month',
+            type: "post",
+            data: {datetime: day, mode: 'quantity'},
+            dataType: "json",
+            success: function (data) {
+                if(data.status=='NO'){
+                    productList.push(['No Data',1]);
+                    var data_pie = google.visualization.arrayToDataTable(
+                        productList
+                    );
+                    var options = {
+                        title: day + ' 판매량'
+                    };
+                    var chart3 = new google.visualization.PieChart(document.getElementById('piechart3'));
+                    chart3.draw(data_pie, options);
+
+                    productList_table = [];
+                    for (var i = 0; i < 5; i++) {
+                        productList_table.push(['-','-',0]);
+                    }
+                    var data_table = new google.visualization.DataTable();
+                    data_table.addColumn('string', '제품코드');
+                    data_table.addColumn('string', '제품이름');
+                    data_table.addColumn('number', '판매개수');
+                    data_table.addRows(productList_table);
+
+                    var table3 = new google.visualization.Table(document.getElementById('table_div3'));
+
+                    table3.draw(data_table, {showRowNumber: true, width: '90%', height: '100%'});
+                }
+                else{
+                    for (var i = 0; i < Object.keys(data['products']).length; i++) {
+                        productList.push([data.products[i].name, data.products[i].SellQuantity]);
+
+                    }
+                    var data_pie = google.visualization.arrayToDataTable(
+                        productList
+                    );
+
+                    var options = {
+                        title: day + ' 판매량'
+                    };
+                    var chart3 = new google.visualization.PieChart(document.getElementById('piechart3'));
+                    chart3.draw(data_pie, options);
+
+                    productList_table = [];
+                    for (var i = 0; i < 5; i++) {
+                        if(i<Object.keys(data['products']).length){
+                            productList_table.push([data.products[i].code,data.products[i].name,
+                                data.products[i].SellQuantity]);
+                        }
+                        else{
+                            productList_table.push(['-','-',0]);
+                        }
+                    }
+                    var data_table = new google.visualization.DataTable();
+                    data_table.addColumn('string', '제품코드');
+                    data_table.addColumn('string', '제품이름');
+                    data_table.addColumn('number', '판매개수');
+                    data_table.addRows(productList_table);
+
+                    var table3 = new google.visualization.Table(document.getElementById('table_div3'));
+
+                    table3.draw(data_table, {showRowNumber: true, width: '90%', height: '100%'});
+                }
+            }
+        });
     }
 </script>
 
@@ -158,21 +339,21 @@
             <div class="col" align="center">
                 <div id="piechart1" style="width: 100%; height: 500px;"></div>
                 <input type="date" id="QuantityDay">
-                <button onclick="getData()" class="btn btn-primary">조회하기</button>
+                <button onclick="updateChart_quantity_per_day()" class="btn btn-primary">조회하기</button>
                 <br><br>
                 <div id="table_div1"></div>
             </div>
             <div class="col" align="center">
                 <div id="piechart2" style="width: 100%; height: 500px;"></div>
-                <input type="date" id="QuantityWeek">
-                <button onclick="getData()" class="btn btn-primary">조회하기</button>
+                <input type="week" id="QuantityWeek">
+                <button onclick="updateChart_quantity_per_week()" class="btn btn-primary">조회하기</button>
                 <br><br>
                 <div id="table_div2"></div>
             </div>
             <div class="col" align="center">
                 <div id="piechart3" style="width: 100%; height: 500px;"></div>
-                <input type="date" id="QuantityMonth">
-                <button onclick="getData()" class="btn btn-primary">조회하기</button>
+                <input type="month" id="QuantityMonth">
+                <button onclick="updateChart_quantity_per_month()" class="btn btn-primary">조회하기</button>
                 <br><br>
                 <div id="table_div3"></div>
             </div>

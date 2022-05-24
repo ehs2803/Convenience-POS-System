@@ -95,7 +95,7 @@ public class SaleDao {
         return results;
     }
 
-    public List<Sale> selectByDate(String date) {
+    public List<Sale> selectByDay(String date) {
         List<Sale> results = jdbcTemplate.query(
                 "select * from SALE_TB where DATE(DATETIME) = ?",
                 new RowMapper<Sale>() {
@@ -109,6 +109,42 @@ public class SaleDao {
                         return sale;
                     }
                 }, date);
+
+        return results.isEmpty() ? null : results;
+    }
+
+    public List<Sale> selectByMonth(String date) {
+        List<Sale> results = jdbcTemplate.query(
+                "select * from SALE_TB where DATE_FORMAT(DATETIME,'%Y-%m') = DATE_FORMAT(now(),?)",
+                new RowMapper<Sale>() {
+                    @Override
+                    public Sale mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        Sale sale = new Sale(
+                                rs.getLong("MID"),
+                                rs.getInt("PRICE"),
+                                rs.getTimestamp("DATETIME").toLocalDateTime());
+                        sale.setId(rs.getLong("ID"));
+                        return sale;
+                    }
+                }, date);
+
+        return results.isEmpty() ? null : results;
+    }
+
+    public List<Sale> selectByWeek(String start, String end) {
+        List<Sale> results = jdbcTemplate.query(
+                "select * from SALE_TB where DATETIME BETWEEN DATE(?) and DATE(?)+1",
+                new RowMapper<Sale>() {
+                    @Override
+                    public Sale mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        Sale sale = new Sale(
+                                rs.getLong("MID"),
+                                rs.getInt("PRICE"),
+                                rs.getTimestamp("DATETIME").toLocalDateTime());
+                        sale.setId(rs.getLong("ID"));
+                        return sale;
+                    }
+                }, start, end);
 
         return results.isEmpty() ? null : results;
     }
