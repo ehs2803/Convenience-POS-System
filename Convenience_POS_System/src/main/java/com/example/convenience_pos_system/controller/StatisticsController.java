@@ -57,7 +57,7 @@ public class StatisticsController {
         String date = (String) params.get("datetime");
         String mode = (String) params.get("mode");
 
-        return statisticsService.getQuantityData(date,"day");
+        return statisticsService.getStatisticData(date, mode,"day");
     }
 
     @ResponseBody
@@ -77,7 +77,7 @@ public class StatisticsController {
         String end = startLD.plusDays(6).toString();
         String weekDate = start+":"+end;
 
-        return statisticsService.getQuantityData(weekDate, "week");
+        return statisticsService.getStatisticData(weekDate, mode,"week");
     }
 
     @ResponseBody
@@ -87,6 +87,6 @@ public class StatisticsController {
         String date = (String) params.get("datetime");
         String mode = (String) params.get("mode");
 
-        return statisticsService.getQuantityData(date,"month");
+        return statisticsService.getStatisticData(date, mode,"month");
     }
 }
