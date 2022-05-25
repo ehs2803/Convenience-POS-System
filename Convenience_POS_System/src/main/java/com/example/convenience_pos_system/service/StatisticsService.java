@@ -116,7 +116,8 @@ public class StatisticsService {
                 jObj.addProperty("code", product.getCode());
                 jObj.addProperty("name", product.getName());
                 jObj.addProperty("price", product.getPrice());
-                jObj.addProperty("SellQuantity", quantityDay.get(key));
+                if(mode.equals("quantity")) jObj.addProperty("SellQuantity", quantityDay.get(key));
+                else if(mode.equals("price")) jObj.addProperty("SellPrice", quantityDay.get(key));
                 ja.add(jObj);
             }
             jo.add("products", ja);
