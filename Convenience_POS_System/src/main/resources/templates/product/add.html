@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/bootstrap/css/styles.css" rel="stylesheet"/>
+    <link href="/bootstrap/css/paging.css" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <style>
         body, html{
@@ -30,33 +31,6 @@
             padding-bottom: 300px;
         }
 
-        table {
-            border-collapse:collapse;
-            margin-bottom: 10px;
-        }
-        th, td {
-            padding: 3px 10px;
-        }
-        .off-screen {
-            display: none;
-        }
-        #nav {
-            width: 500px;
-            text-align: center;
-        }
-        #nav a {
-            display: inline-block;
-            padding: 3px 5px;
-            margin-right: 10px;
-            font-family:Tahoma;
-            background: #ccc;
-            color: #000;
-            text-decoration: none;
-        }
-        #nav a.active {
-            background: #333;
-            color: #fff;
-        }
     </style>
 </head>
 <body>
@@ -65,25 +39,17 @@
     <!-- Responsive navbar-->
     <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
     <div id="content">
+        <div class="py-5 text-center">
+            <h2>제품 입고</h2>
+        </div>
+
 
         <div>
-            <a href="/product/add/new" class="btn btn-primary btn-lg">새로운 제품 추가하기</a>
-        </div><br><br>
+            <a href="/product/add/new" class="btn btn-primary btn-lg">새로운 제품 입고</a>
+        </div><br><br><br>
+
         <div align="center">
             <table id="products" class="table">
-                <!--
-                                <caption>product list
-
-                    <form action="" id="setRows">
-                        <p>
-                            showing
-                            <input type="text" name="rowPerPage" value="3">
-                            item per page
-                        </p>
-                    </form>
-
-                </caption>
-                -->
 
                 <thead>
                 <tr>

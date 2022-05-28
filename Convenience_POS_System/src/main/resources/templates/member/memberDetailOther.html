@@ -12,6 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/bootstrap/css/styles.css" rel="stylesheet"/>
+    <link href="/bootstrap/css/paging.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <style>
         body, html{
             margin: 0;
@@ -44,71 +46,230 @@
         <h5>[[${member.registerDate}]]</h5><br>
         <hr>
 
-
         <h1>판매 조회</h1>
-        <table class="table">
-            <tr>
-                <th>판매 ID</th>
-                <th>총 판매 가격</th>
-                <th>시간</th>
-                <th>상세보기</th>
-            </tr>
-            <tr th:each="sale : ${sales}">
-                <th th:text="${sale.getId()}"/>
-                <th th:text="${sale.getPrice()}"/>
-                <th th:text="${sale.getDatetime()}"/>
-                <td><a th:href="@{/statistics/sale/{saleId}(saleId=${sale.getId()})}" th:text="상세보기">상세보기</a></td>
-            </tr>
-        </table>
+        <div align="center">
+            <table id="sales" class="table">
+                <thead>
+                <tr>
+                    <th>판매 ID</th>
+                    <th>총 판매 가격</th>
+                    <th>시간</th>
+                    <th>상세보기</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="sale : ${sales}">
+                    <th th:text="${sale.getId()}"/>
+                    <th th:text="${sale.getPrice()}"/>
+                    <th th:text="${sale.getDatetime()}"/>
+                    <td><a th:href="@{/statistics/sale/{saleId}(saleId=${sale.getId()})}" th:text="상세보기">상세보기</a></td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
 
         <h1>상품 변경 조회</h1>
-        <table class="table">
-            <tr>
-                <th>상품 ID</th>
-                <th>상품 이름</th>
-                <th>상품 가격</th>
-                <th>상품수량</th>
-                <th>방법</th>
-                <th>시간</th>
-            </tr>
-            <tr th:each="productHistory : ${productHistories}">
-                <th th:text="${productHistory.getPid()}"/>
-                <th th:text="${productHistory.getName()}"/>
-                <th th:text="${productHistory.getPrice()}"/>
-                <th th:text="${productHistory.getQuantity()}"/>
-                <th th:text="${productHistory.getMethod()}"/>
-                <th th:text="${productHistory.getTime()}"/>
-            </tr>
-        </table>
+        <div align="center">
+            <table id="changes" class="table">
+                <thead>
+                <tr>
+                    <th>상품 ID</th>
+                    <th>상품 이름</th>
+                    <th>상품 가격</th>
+                    <th>상품수량</th>
+                    <th>방법</th>
+                    <th>시간</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="productHistory : ${productHistories}">
+                    <th th:text="${productHistory.getPid()}"/>
+                    <th th:text="${productHistory.getName()}"/>
+                    <th th:text="${productHistory.getPrice()}"/>
+                    <th th:text="${productHistory.getQuantity()}"/>
+                    <th th:text="${productHistory.getMethod()}"/>
+                    <th th:text="${productHistory.getTime()}"/>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
 
         <h1>상품 상태 변경 조회</h1>
-        <table class="table">
-            <tr>
-                <th>제품 ID</th>
-                <th>제품 이름</th>
-                <th>제품 새이름</th>
-                <th>제품 가격</th>
-                <th>제품 새가격</th>
-                <th>제품 상태</th>
-                <th>시간</th>
-            </tr>
-            <tr th:each="productStateHistory : ${productStateHistories}">
-                <th th:text="${productStateHistory.getPid()}"/>
-                <th th:text="${productStateHistory.getName()}"/>
-                <th th:text="${productStateHistory.getNewname()}"/>
-                <th th:text="${productStateHistory.getPrice()}"/>
-                <th th:text="${productStateHistory.getNewprice()}"/>
-                <th th:text="${productStateHistory.getState()}"/>
-                <th th:text="${productStateHistory.getDatetime()}"/>
-            </tr>
-        </table>
+        <div align="center">
+            <table id="state_changes" class="table">
+                <thead>
+                <tr>
+                    <th>제품 ID</th>
+                    <th>제품 이름</th>
+                    <th>제품 새이름</th>
+                    <th>제품 가격</th>
+                    <th>제품 새가격</th>
+                    <th>제품 상태</th>
+                    <th>시간</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="productStateHistory : ${productStateHistories}">
+                    <th th:text="${productStateHistory.getPid()}"/>
+                    <th th:text="${productStateHistory.getName()}"/>
+                    <th th:text="${productStateHistory.getNewname()}"/>
+                    <th th:text="${productStateHistory.getPrice()}"/>
+                    <th th:text="${productStateHistory.getNewprice()}"/>
+                    <th th:text="${productStateHistory.getState()}"/>
+                    <th th:text="${productStateHistory.getDatetime()}"/>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
     </div>
 
     <!-- Footer-->
     <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </div>
 
+<script>
+    $(function(){
+        var rowPerPage = 10;//$('[name="rowPerPage"]').val() * 1;// 1 을  곱하여 문자열을 숫자형로 변환
 
+        var zeroWarning = 'Sorry, but we cat\'t display "0" rows page. + \nPlease try again.'
+        if (!rowPerPage) {
+            alert(zeroWarning);
+            return;
+        }
+        $('#nav_sales').remove();
+        $('#nav_change').remove();
+        $('#nav_change_state').remove();
+
+        var $sales = $('#sales');
+        var $changes = $('#changes');
+        var $state_changes = $('#state_changes');
+
+        $sales.after('<div id="nav_sales">');
+        $changes.after('<div id="nav_change">');
+        $state_changes.after('<div id="nav_change_state">');
+
+        var $tr_sales = $($sales).find('tbody tr');
+        var $tr_changes = $($changes).find('tbody tr');
+        var $tr_state_changes = $($state_changes).find('tbody tr');
+
+        var rowTotals_sales = $tr_sales.length;
+        var rowTotals_changes = $tr_changes.length;
+        var rowTotals_state_changes = $tr_state_changes.length;
+
+        var pageTotal_sales = Math.ceil(rowTotals_sales/ rowPerPage);
+        var pageTotal_changes = Math.ceil(rowTotals_changes/rowPerPage);
+        var pageTotal_state_changes = Math.ceil(rowTotals_state_changes/rowPerPage);
+
+        var i = 0;
+
+        for (; i < pageTotal_sales; i++) {
+            $('<a href="#"></a>')
+                .attr('rel', i)
+                .html(i + 1)
+                .appendTo('#nav_sales');
+        }
+
+        for (var i=0; i < pageTotal_changes; i++) {
+            $('<a href="#"></a>')
+                .attr('rel', i)
+                .html(i + 1)
+                .appendTo('#nav_change');
+        }
+
+        for (var i=0; i < pageTotal_state_changes; i++) {
+            $('<a href="#"></a>')
+                .attr('rel', i)
+                .html(i + 1)
+                .appendTo('#nav_change_state');
+        }
+
+        $tr_sales.addClass('off-screen')
+            .slice(0, rowPerPage)
+            .removeClass('off-screen');
+
+        $tr_changes.addClass('off-screen')
+            .slice(0, rowPerPage)
+            .removeClass('off-screen');
+
+        $tr_state_changes.addClass('off-screen')
+            .slice(0, rowPerPage)
+            .removeClass('off-screen');
+
+        var $pagingLink_sales = $('#nav_sales a');
+        $pagingLink_sales.on('click', function (evt) {
+            evt.preventDefault();
+            var $this = $(this);
+            if ($this.hasClass('active')) {
+                return;
+            }
+            $pagingLink_sales.removeClass('active');
+            $this.addClass('active');
+
+            var currPage = $this.attr('rel');
+            var startItem = currPage * rowPerPage;
+            var endItem = startItem + rowPerPage;
+
+            $tr_sales.css('opacity', '0.0')
+                .addClass('off-screen')
+                .slice(startItem, endItem)
+                .removeClass('off-screen')
+                .animate({opacity: 1}, 300);
+
+        });
+        $pagingLink_sales.filter(':first').addClass('active');
+
+        var $pagingLink_changes = $('#nav_change a');
+        $pagingLink_changes.on('click', function (evt) {
+            evt.preventDefault();
+            var $this = $(this);
+            if ($this.hasClass('active')) {
+                return;
+            }
+            $pagingLink_changes.removeClass('active');
+            $this.addClass('active');
+
+            var currPage = $this.attr('rel');
+            var startItem = currPage * rowPerPage;
+            var endItem = startItem + rowPerPage;
+
+            $tr_changes.css('opacity', '0.0')
+                .addClass('off-screen')
+                .slice(startItem, endItem)
+                .removeClass('off-screen')
+                .animate({opacity: 1}, 300);
+
+        });
+        $pagingLink_changes.filter(':first').addClass('active');
+
+        var $pagingLink_state_changes = $('#nav_change_state a');
+        $pagingLink_state_changes.on('click', function (evt) {
+            evt.preventDefault();
+            var $this = $(this);
+            if ($this.hasClass('active')) {
+                return;
+            }
+            $pagingLink_state_changes.removeClass('active');
+            $this.addClass('active');
+
+            var currPage = $this.attr('rel');
+            var startItem = currPage * rowPerPage;
+            var endItem = startItem + rowPerPage;
+
+            $tr_state_changes.css('opacity', '0.0')
+                .addClass('off-screen')
+                .slice(startItem, endItem)
+                .removeClass('off-screen')
+                .animate({opacity: 1}, 300);
+
+        });
+        $pagingLink_state_changes.filter(':first').addClass('active');
+    });
+
+</script>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
