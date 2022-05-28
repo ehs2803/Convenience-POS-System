@@ -1,14 +1,13 @@
 package com.example.convenience_pos_system.controller;
 
-import com.example.convenience_pos_system.domain.Member;
-import com.example.convenience_pos_system.domain.Product;
-import com.example.convenience_pos_system.domain.ProductHistory;
-import com.example.convenience_pos_system.domain.ProductStateHistory;
+import com.example.convenience_pos_system.domain.*;
 import com.example.convenience_pos_system.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.stylesheets.LinkStyle;
 
@@ -34,17 +33,25 @@ public class ProductController {
     }
 
     @GetMapping(value = "/add/new")
-    public String addNewProductForm(){
+    public String addNewProductForm(Model model){
+        model.addAttribute("product", new Product());
         return "product/addNewProductForm";
     }
 
     @PostMapping(value = "/add/new")
-    public String addNewProduct(@ModelAttribute Product product, HttpServletRequest request) {
+    public String addNewProduct(@Validated @ModelAttribute("product") ProductAddDto product, BindingResult bindingResult,
+                                HttpServletRequest request) {
+
+        if (bindingResult.hasErrors()) {
+            return "product/addNewProductForm";
+        }
+
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
         HttpSession session = request.getSession(true);
         Member loginMember = (Member) session.getAttribute("loginMember");
 
-        productService.addNewProduct(product, loginMember.getId());
+        Product product1 = new Product(product.getCode(), product.getName(), product.getPrice(), product.getQuantity(),1);
+        productService.addNewProduct(product1, loginMember.getId());
 
         return "redirect:/product/add";
     }

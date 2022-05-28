@@ -1,4 +1,4 @@
-package com.example.convenience_pos_system.dto;
+package com.example.convenience_pos_system.domain;
 
 public class MemberUpdateDto {
     private String email;

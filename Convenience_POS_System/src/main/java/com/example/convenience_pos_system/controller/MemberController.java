@@ -1,14 +1,12 @@
 package com.example.convenience_pos_system.controller;
 
 import com.example.convenience_pos_system.domain.*;
-import com.example.convenience_pos_system.dto.MemberUpdateDto;
+import com.example.convenience_pos_system.domain.MemberUpdateDto;
 import com.example.convenience_pos_system.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,8 +77,11 @@ public class MemberController {
         if(!StringUtils.hasText(email)){
             errors.put("email", "아이디 이메일은 필수입니다.");
         }
+        if(!StringUtils.hasText(pwd)){
+            errors.put("password", "비밀번호는 필수입니다.");
+        }
         if(!pwd.equals(pwdconfirm)){
-            errors.put("password","비밀번호가 일치하지 않습니다.");
+            errors.put("passwordConfirm","비밀번호가 일치하지 않습니다.");
         }
         if(!StringUtils.hasText(name)){
             errors.put("name", "이름은 필수입니다.");
