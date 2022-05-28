@@ -1,15 +1,21 @@
 package com.example.convenience_pos_system.controller;
 
 import com.example.convenience_pos_system.domain.*;
+import com.example.convenience_pos_system.dto.MemberUpdateDto;
 import com.example.convenience_pos_system.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/member")
@@ -28,11 +34,12 @@ public class MemberController {
 
     @PostMapping(value = "/login")
     public String login(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password,
-                        HttpServletRequest request){
-
+                        HttpServletRequest request, Model model){
+        Map<String, String> errors = new HashMap<>();
         Member loginmember = memberService.login(email, password);
         if(loginmember==null){
-
+            errors.put("loginError", "아이디, 비밀번호를 확인하세요.");
+            model.addAttribute("errors",errors);
             return "/member/loginForm";
         }
 
@@ -60,14 +67,30 @@ public class MemberController {
     }
 
     @PostMapping(value = "/signup")
-    public String registerMember(HttpServletRequest request){
+    public String registerMember(HttpServletRequest request, Model model){
+        Map<String, String> errors = new HashMap<>();
+
         String email = request.getParameter("email");
         String pwd = request.getParameter("password");
         String pwdconfirm = request.getParameter("passwordcf");
         String name = request.getParameter("name");
         String role = request.getParameter("role");
 
-        if(!pwd.equals(pwdconfirm)) return "redirect:/member/signup";
+        if(!StringUtils.hasText(email)){
+            errors.put("email", "아이디 이메일은 필수입니다.");
+        }
+        if(!pwd.equals(pwdconfirm)){
+            errors.put("password","비밀번호가 일치하지 않습니다.");
+        }
+        if(!StringUtils.hasText(name)){
+            errors.put("name", "이름은 필수입니다.");
+        }
+
+        if(!errors.isEmpty()){
+            model.addAttribute("errors",errors);
+            return "member/addMemberForm";
+        }
+        //if(!pwd.equals(pwdconfirm)) return "redirect:/member/signup";
 
         Member member = new Member(email, pwd, name, role);
         memberService.signup(member);
@@ -125,14 +148,28 @@ public class MemberController {
     }
 
     @PostMapping(value = "/update")
-    public String updateMember(HttpServletRequest request){
-        String email = request.getParameter("email");
-        String pwd = request.getParameter("password");
-        String name = request.getParameter("name");
-        String role = request.getParameter("role");
+    public String updateMember(@ModelAttribute MemberUpdateDto member, HttpServletRequest request, Model model){
+        Map<String, String> errors = new HashMap<>();
 
-        System.out.println(email+pwd+name+role);
-        Member updatedMember = memberService.update(email, name, pwd, role);
+        if(!StringUtils.hasText(member.getName())){
+            errors.put("name", "이름은 필수 항목 입니다.");
+        }
+        if(!StringUtils.hasText(member.getPassword())){
+            errors.put("password", "비밀번호는 필수값 입니다.");
+        }
+
+        if(!errors.isEmpty()){
+            HttpSession session = request.getSession(true);
+            Member loginmember = (Member) session.getAttribute("loginMember");
+            model.addAttribute("loginmember",loginmember);
+
+            model.addAttribute("errors",errors);
+
+            return "/member/updateForm";
+        }
+
+        Member updatedMember = memberService.update(member.getEmail(), member.getName(),
+                member.getPassword(), member.getRole());
 
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
         HttpSession session = request.getSession(true);

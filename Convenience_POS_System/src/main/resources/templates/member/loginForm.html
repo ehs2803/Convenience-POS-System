@@ -25,6 +25,12 @@
             margin-top: 100px;
             padding-bottom: 300px;
         }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+            padding-left: 0.75rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -37,6 +43,10 @@
         </div>
 
         <form action="/member/login" method="post">
+            <div th:if="${errors?.containsKey('loginError')}">
+                <p class="field-error" th:text="${errors['loginError']}">전체 오류 메시지</p>
+            </div>
+
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
                 <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">

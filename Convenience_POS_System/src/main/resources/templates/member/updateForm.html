@@ -24,6 +24,12 @@
             margin-top: 100px;
             padding-bottom: 300px;
         }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+            padding-left: 0.75rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -47,14 +53,21 @@
             <div class="row mb-3">
                 <label for="inputPassword3" class="col-sm-2 col-form-label">비밀번호</label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword3" name="password"
-                           th:value="${loginmember.getPassword()}">
+                    <input type="password" class="form-control" id="inputPassword3" name="password" th:value="${loginmember.getPassword()}">
+                </div>
+                <div class="field-error" th:if="${errors?.containsKey('password')}"
+                     th:text="${errors['password']}">
+                    비밀번호 오류
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="name" class="col-sm-2 col-form-label">이름</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="name" name="name" th:value="${loginmember.getName()}">
+                </div>
+                <div class="field-error" th:if="${errors?.containsKey('name')}"
+                     th:text="${errors['name']}">
+                    이름 오류
                 </div>
             </div>
             <fieldset class="row mb-3">
