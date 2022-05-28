@@ -9,6 +9,7 @@ import com.example.convenience_pos_system.domain.ProductHistory;
 import com.example.convenience_pos_system.domain.ProductStateHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -40,6 +41,7 @@ public class ProductService {
         return productHistoryDao.selectByPid(id);
     }
 
+    @Transactional
     public void addNewProduct(Product product, Long mid){
         LocalDateTime currentDateTime = LocalDateTime.now();
         productDao.insert(product);
@@ -56,6 +58,7 @@ public class ProductService {
         productStateHistoryDao.insert(productStateHistory);
     }
 
+    @Transactional
     public void addQuantity(Product product, int addQuantity, Long mid){
         productDao.update(product);
 
@@ -67,6 +70,7 @@ public class ProductService {
         productHistoryDao.insert(productHistory);
     }
 
+    @Transactional
     public void UpdateProduct(Product product, Long mid){
         LocalDateTime currentDateTime = LocalDateTime.now();
 
@@ -80,6 +84,7 @@ public class ProductService {
         productStateHistoryDao.insert(productStateHistory);
     }
 
+    @Transactional
     public void updateSellState(Long pid, Long mid){
         LocalDateTime currentDateTime = LocalDateTime.now();
 

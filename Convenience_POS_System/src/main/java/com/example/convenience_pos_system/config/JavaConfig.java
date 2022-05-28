@@ -11,12 +11,16 @@ import com.example.convenience_pos_system.service.SaleService;
 import com.example.convenience_pos_system.service.StatisticsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 
 @Configuration
+@EnableTransactionManagement
 public class JavaConfig {
 
     @Bean
@@ -99,5 +103,12 @@ public class JavaConfig {
         datasource.setUsername("root");
         datasource.setPassword("1234");
         return datasource;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(){
+        DataSourceTransactionManager tm = new DataSourceTransactionManager();
+        tm.setDataSource(dataSource());
+        return tm;
     }
 }

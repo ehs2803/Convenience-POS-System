@@ -3,6 +3,7 @@ package com.example.convenience_pos_system.service;
 import com.example.convenience_pos_system.dao.*;
 import com.example.convenience_pos_system.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +25,7 @@ public class SaleService {
         this.productHistoryDao = productHistoryDao;
     }
 
+    @Transactional
     public void addCart(Long mid, Long pid, int quantity){
         SaleCart saleCart = saleCartDao.selectByPK(mid,pid);
         if(saleCart==null){
@@ -45,6 +47,7 @@ public class SaleService {
         return saleCartDao.selectByMid(mid);
     }
 
+    @Transactional
     public void deleteSaleCart(Long mid, Long pid){
         // get
         SaleCart saleCart = saleCartDao.selectByPK(mid,pid);
@@ -56,6 +59,7 @@ public class SaleService {
         saleCartDao.delete(mid, pid);
     }
 
+    @Transactional
     public void deleteAllSaleCart(Long mid){
         List<SaleCart> saleCartList = saleCartDao.selectByMid(mid);
         for(int i=0;i<saleCartList.size();i++){
@@ -66,6 +70,7 @@ public class SaleService {
         saleCartDao.delete(mid);
     }
 
+    @Transactional
     public void sale(Long mid){
         LocalDateTime currentDateTime = LocalDateTime.now();
         int totalCost = 0;

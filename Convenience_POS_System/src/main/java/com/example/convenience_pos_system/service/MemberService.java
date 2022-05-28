@@ -7,6 +7,7 @@ import com.example.convenience_pos_system.domain.ProductStateHistory;
 import com.example.convenience_pos_system.domain.Sale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class MemberService {
         else return null;
     }
 
+    @Transactional
     public Member update(String email, String name, String pwd, String role){
         Member updatemember = memberDao.selectByEmail(email);
         updatemember.setName(name);
