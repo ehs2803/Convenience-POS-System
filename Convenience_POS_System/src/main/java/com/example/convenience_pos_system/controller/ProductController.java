@@ -50,8 +50,8 @@ public class ProductController {
         HttpSession session = request.getSession(true);
         Member loginMember = (Member) session.getAttribute("loginMember");
 
-        Product product1 = new Product(product.getCode(), product.getName(), product.getPrice(), product.getQuantity(),1);
-        productService.addNewProduct(product1, loginMember.getId());
+        Product newProduct = new Product(product.getCode(), product.getName(), product.getPrice(), product.getQuantity(),1);
+        productService.addNewProduct(newProduct, loginMember.getId());
 
         return "redirect:/product/add";
     }
@@ -68,15 +68,15 @@ public class ProductController {
         int addQuantity = Integer.parseInt(request.getParameter("addQuantity"));
         Long id = Long.valueOf(request.getParameter("id"));
 
-        Product product = productService.findById(id);
-        int addedQuantity = product.getQuantity()+addQuantity;
-        product.setQuantity(addedQuantity);
+        Product addproduct = productService.findById(id);
+        int addedQuantity = addproduct.getQuantity()+addQuantity;
+        addproduct.setQuantity(addedQuantity);
 
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
         HttpSession session = request.getSession(true);
         Member loginMember = (Member) session.getAttribute("loginMember");
 
-        productService.addQuantity(product, addQuantity, loginMember.getId());
+        productService.addQuantity(addproduct, addQuantity, loginMember.getId());
 
         return "redirect:/product/add";
     }

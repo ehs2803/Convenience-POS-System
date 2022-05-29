@@ -32,6 +32,8 @@
             border-color: #dc3545;
             color: #dc3545;
             padding-left: 0.75rem;
+        }
+        .msg{
             text-align: center;
         }
     </style>
@@ -56,7 +58,7 @@
                     <input type="email" th:class="${errors?.containsKey('email')} ? 'form-control field-error' : 'form-control'"
                            class="form-control" id="inputEmail3" name="email">
                 </div>
-                <div class="field-error" th:if="${errors?.containsKey('email')}"
+                <div class="field-error msg" th:if="${errors?.containsKey('email')}"
                      th:text="${errors['email']}">
                     이메일 오류
                 </div>
@@ -67,7 +69,7 @@
                     <input type="password" th:class="${errors?.containsKey('password')} ? 'form-control field-error' : 'form-control'"
                            class="form-control" id="inputPassword3" name="password">
                 </div>
-                <div class="field-error" th:if="${errors?.containsKey('password')}"
+                <div class="field-error msg" th:if="${errors?.containsKey('password')}"
                      th:text="${errors['password']}">
                     비밀번호 오류
                 </div>
@@ -78,7 +80,7 @@
                     <input type="password" th:class="${errors?.containsKey('passwordConfirm')} ? 'form-control field-error' : 'form-control'"
                            class="form-control" id="confirmPassword3" name="passwordcf">
                 </div>
-                <div class="field-error" th:if="${errors?.containsKey('passwordConfirm')}"
+                <div class="field-error msg" th:if="${errors?.containsKey('passwordConfirm')}"
                      th:text="${errors['passwordConfirm']}">
                     비밀번호 오류
                 </div>
@@ -89,7 +91,7 @@
                     <input type="text" th:class="${errors?.containsKey('name')} ? 'form-control field-error' : 'form-control'"
                            class="form-control" id="name" name="name">
                 </div>
-                <div class="field-error" th:if="${errors?.containsKey('name')}"
+                <div class="field-error msg" th:if="${errors?.containsKey('name')}"
                      th:text="${errors['name']}">
                     이름 오류
                 </div>
