@@ -46,7 +46,7 @@
                                 <th:block th:unless="${session.loginMember eq null}">
                                     <a th:href="@{/sale}"><h2 class="fs-4 fw-bold">계산하기</h2></a>
                                 </th:block>
-                                <p class="mb-0">With Bootstrap 5, we've created a fresh new layout for this template!</p>
+                                <p class="mb-0">현재 판매중인 상품을 계산할 수 있습니다.</p>
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                                 <th:block th:unless="${session.loginMember eq null}">
                                     <a th:href="@{/product/list}"><h2 class="fs-4 fw-bold">재고 현황</h2></a>
                                 </th:block>
-                                <p class="mb-0">The heroic part of this template is the jumbotron hero header!</p>
+                                <p class="mb-0">제품 재고 현황과 제품 변동 상세 이력을 볼 수 있습니다.</p>
                             </div>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                                 <th:block th:unless="${session.loginMember eq null}">
                                     <a th:href="@{/product/update}"><h2 class="fs-4 fw-bold">제품 상세 수정</h2></a>
                                 </th:block>
-                                <p class="mb-0">We've created some custom feature boxes using Bootstrap icons!</p>
+                                <p class="mb-0">제품명, 제품가격을 수정할 수 있습니다. 제품을 판매 중단, 판매 재개 할 수 있습니다.</p>
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                                 <th:block th:unless="${session.loginMember eq null}">
                                     <a th:href="@{/statistics}"><h2 class="fs-4 fw-bold">판매 통계</h2></a>
                                 </th:block>
-                                <p class="mb-0">We keep our dependencies up to date and squash bugs as they come!</p>
+                                <p class="mb-0">일별, 주별, 월별 판매통계를 볼 수 있습니다. 계산 내역을 볼 수 있습니다.</p>
                             </div>
                         </div>
                     </div>
@@ -116,7 +116,8 @@
                                 <th:block th:unless="${session.loginMember eq null}">
                                     <a th:href="@{/member/detail}"><h2 class="fs-4 fw-bold">계정 관리</h2></a>
                                 </th:block>
-                                <p class="mb-0">로그인한 계정 정보를 확인하고, 정보를 수정할 수 있습니다.</p>
+                                <p class="mb-0">로그인한 계정 정보를 확인, 정보 수정. 활동내역 확인. 매니저라면 모든 계정의
+                                활동 내역을 확인할 수 있습니다.</p>
                             </div>
                         </div>
                     </div>

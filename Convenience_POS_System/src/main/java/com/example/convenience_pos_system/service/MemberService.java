@@ -68,4 +68,8 @@ public class MemberService {
     public List<Sale> findByMid(Long mid){
         return saleDao.selectByMid(mid);
     }
+
+    public Member findbyEmail(String email){
+        return memberDao.selectByEmail(email);
+    }
 }

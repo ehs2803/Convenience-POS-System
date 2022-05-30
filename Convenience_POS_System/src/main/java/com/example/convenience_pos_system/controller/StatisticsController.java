@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -29,11 +31,14 @@ public class StatisticsController {
     }
 
     @GetMapping(value = "")
-    public String statistics(Model model){
+    public String statistics(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession(true);
+        Member loginMember = (Member) session.getAttribute("loginMember");
 
         List<Sale> sales = statisticsService.getAllSales();
 
         model.addAttribute("sales", sales);
+        model.addAttribute("loginMember",loginMember);
 
         return "statistics/statistics";
     }

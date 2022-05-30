@@ -51,7 +51,8 @@
 
         <div class="container">
             <h4 class="mb-3">수량 입고</h4>
-            <form th:action="@{/product/add/{productId}(productId=${product.getId()})}" method="post">
+            <form onsubmit="return checkQuantity()"
+                    name="quantityForm" th:action="@{/product/add/{productId}(productId=${product.getId()})}" method="post">
                 <input type="text" class="form-control" id="id" name="id" th:value="${product.getId()}" readonly hidden>
                 <div class="row mb-3">
                     <label for="code" class="col-sm-2 col-form-label">코드</label>
@@ -83,6 +84,7 @@
                         <input type="text" class="form-control" id="addQuantity" name="addQuantity">
                     </div>
                 </div>
+                <div id="liveAlertPlaceholder"></div>
                 <button type="submit" class="btn btn-primary">제품 수량 추가</button>
             </form>
         </div>
@@ -91,7 +93,38 @@
     <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </div>
 
+<script>
 
+    var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+    var alertTrigger = document.getElementById('liveAlertBtn')
+
+    function alert(message, type) {
+        var wrapper = document.createElement('div')
+        wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+
+        alertPlaceholder.append(wrapper)
+    }
+
+
+    function checkQuantity(){
+        var form = document.quantityForm;
+
+        if(form.addQuantity.value.length==0){
+            alert('입고 수량은 필수 입력 항목입니다.', 'danger');
+            form.addQuantity.select();
+            return false;
+        }
+        else if(form.addQuantity.value==0){
+            alert('입고 수량은 1개 이상으로 입력하세요.', 'danger')
+            form.addQuantity.select();
+            return false;
+        }
+        else{
+            form.submit();
+        }
+
+    }
+</script>
 
 
 

@@ -52,7 +52,7 @@ public class ProductHistoryDao {
 
     public List<ProductHistory> selectByPid(Long pid) {
         List<ProductHistory> results = jdbcTemplate.query(
-                "select * from PRODUCT_HISTORY_TB where PID = ?",
+                "select * from PRODUCT_HISTORY_TB where PID = ? order by DATETIME DESC",
                 new RowMapper<ProductHistory>() {
                     @Override
                     public ProductHistory mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -74,7 +74,7 @@ public class ProductHistoryDao {
 
     public List<ProductHistory> selectByMid(Long mid) {
         List<ProductHistory> results = jdbcTemplate.query(
-                "select * from PRODUCT_HISTORY_TB where MID = ?",
+                "select * from PRODUCT_HISTORY_TB where MID = ? order by DATETIME DESC",
                 new RowMapper<ProductHistory>() {
                     @Override
                     public ProductHistory mapRow(ResultSet rs, int rowNum) throws SQLException {

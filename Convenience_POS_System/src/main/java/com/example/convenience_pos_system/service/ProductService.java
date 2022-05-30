@@ -37,6 +37,10 @@ public class ProductService {
         return productDao.selectById(id);
     }
 
+    public Product findByCode(String code){
+        return productDao.selectByCode(code);
+    }
+
     public List<ProductHistory> findProductHistoryById(Long id){
         return productHistoryDao.selectByPid(id);
     }

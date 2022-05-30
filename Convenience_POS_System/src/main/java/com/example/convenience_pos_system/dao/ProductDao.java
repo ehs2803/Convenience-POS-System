@@ -97,7 +97,7 @@ public class ProductDao {
     }
 
     public List<Product> selectAll() {
-        List<Product> results = jdbcTemplate.query("select * from PRODUCT_TB",
+        List<Product> results = jdbcTemplate.query("select * from PRODUCT_TB order by CODE ASC",
                 (ResultSet rs, int rowNum) -> {
                     Product product = new Product(
                             rs.getString("CODE"),

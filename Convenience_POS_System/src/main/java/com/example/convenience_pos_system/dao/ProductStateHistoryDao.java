@@ -95,7 +95,7 @@ public class ProductStateHistoryDao {
 
     public List<ProductStateHistory> selectByMid(Long mid) {
         List<ProductStateHistory> results = jdbcTemplate.query(
-                "select * from PRODUCT_STATE_HISTORY_TB where MID = ?",
+                "select * from PRODUCT_STATE_HISTORY_TB where MID = ? order by DATETIME DESC",
                 new RowMapper<ProductStateHistory>() {
                     @Override
                     public ProductStateHistory mapRow(ResultSet rs, int rowNum) throws SQLException {

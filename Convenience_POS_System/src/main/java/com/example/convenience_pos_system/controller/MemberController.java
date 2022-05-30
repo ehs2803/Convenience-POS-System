@@ -26,12 +26,16 @@ public class MemberController {
     }
 
     @GetMapping(value = "/login")
-    public String loginForm(@ModelAttribute("loginForm") LoginForm form){
+    public String loginForm(@ModelAttribute("loginForm") LoginForm form, HttpServletRequest request, Model model){
+        String redirectUrl = request.getParameter("redirectURL");
+        model.addAttribute("url" ,redirectUrl);
+        System.out.println(redirectUrl);
         return "member/loginForm";
     }
 
     @PostMapping(value = "/login")
     public String login(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password,
+                        @RequestParam(name = "redirectURL",defaultValue = "/") String redirectURL,
                         HttpServletRequest request, Model model){
         Map<String, String> errors = new HashMap<>();
         Member loginmember = memberService.login(email, password);
@@ -46,7 +50,7 @@ public class MemberController {
         //세션에 로그인 회원 정보 보관
         session.setAttribute("loginMember", loginmember);
 
-        return "redirect:/";
+        return "redirect:"+redirectURL;
     }
 
     @GetMapping("/logout")
@@ -74,8 +78,13 @@ public class MemberController {
         String name = request.getParameter("name");
         String role = request.getParameter("role");
 
+        Member checkMember = memberService.findbyEmail(email);
+
         if(!StringUtils.hasText(email)){
             errors.put("email", "아이디 이메일은 필수입니다.");
+        }
+        else if(checkMember!=null){
+            errors.put("email","이미 존재하는 아이디 이메일입니다.");
         }
         if(!StringUtils.hasText(pwd)){
             errors.put("password", "비밀번호는 필수입니다.");

@@ -6,14 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/product")
@@ -41,6 +45,11 @@ public class ProductController {
     @PostMapping(value = "/add/new")
     public String addNewProduct(@Validated @ModelAttribute("product") ProductAddDto product, BindingResult bindingResult,
                                 HttpServletRequest request) {
+
+        Product checkProduct = productService.findByCode(product.getCode());
+        if(checkProduct!=null){
+            bindingResult.addError(new FieldError("product","code","이미 존재하는 코드입니다."));
+        }
 
         if (bindingResult.hasErrors()) {
             return "product/addNewProductForm";
@@ -106,14 +115,33 @@ public class ProductController {
     }
 
     @PostMapping(value = "/update/")
-    public String updateProduct(@ModelAttribute Product product, HttpServletRequest request){
+    public String updateProduct(@ModelAttribute ProductUpdateDto uproduct, HttpServletRequest request, Model model){
+        Map<String, String> errors = new HashMap<>();
+        if(!StringUtils.hasText(uproduct.getName())){
+            errors.put("name", "제품이름은 필수 항목 입니다.");
+        }
+        if(uproduct.getPrice()==0){
+            errors.put("price", "가격은 1원 이상으로 입력하세요.");
+        }
+
+        if (!errors.isEmpty()) {
+            Product product = productService.findById(uproduct.getId());
+            model.addAttribute("product",product);
+            model.addAttribute("errors",errors);
+            return "product/updateProductForm";
+        }
+
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
         HttpSession session = request.getSession(true);
         Member loginMember = (Member) session.getAttribute("loginMember");
 
+        Product product = new Product(uproduct.getId(), uproduct.getCode(), uproduct.getName(),
+                uproduct.getPrice(), uproduct.getQuantity(), uproduct.getSell());
         productService.UpdateProduct(product, loginMember.getId());
         return "redirect:/product/update";
     }
+
+
 
     @GetMapping(value = "/update/{productId}")
     public String updateProductForm(@PathVariable Long productId, Model model){

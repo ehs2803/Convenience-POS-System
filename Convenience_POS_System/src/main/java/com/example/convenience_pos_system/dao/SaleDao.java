@@ -48,7 +48,7 @@ public class SaleDao {
 
     public List<Sale> selectByMid(Long mid) {
         List<Sale> results = jdbcTemplate.query(
-                "select * from SALE_TB where MID = ?",
+                "select * from SALE_TB where MID = ? order by DATETIME DESC",
                 new RowMapper<Sale>() {
                     @Override
                     public Sale mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -83,7 +83,7 @@ public class SaleDao {
     }
 
     public List<Sale> selectAll() {
-        List<Sale> results = jdbcTemplate.query("select * from SALE_TB",
+        List<Sale> results = jdbcTemplate.query("select * from SALE_TB order by DATETIME DESC",
                 (ResultSet rs, int rowNum) -> {
                     Sale sale = new Sale(
                             rs.getLong("MID"),

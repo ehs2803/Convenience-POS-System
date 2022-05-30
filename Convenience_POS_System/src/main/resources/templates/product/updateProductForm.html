@@ -28,6 +28,14 @@
             margin-top: 100px;
             padding-bottom: 300px;
         }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+            padding-left: 0.75rem;
+        }
+        .msg{
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -38,7 +46,7 @@
     <div id="content">
 
         <div class="py-5 text-center">
-            <h2>새로운 제품 입고</h2>
+            <h2>제품 수정</h2>
         </div>
 
         <div class="container">
@@ -56,13 +64,23 @@
                 <div class="row mb-3">
                     <label for="name" class="col-sm-2 col-form-label">제품명</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name" name="name" th:value="${product.getName()}">
+                        <input type="text" th:class="${errors?.containsKey('email')} ? 'form-control field-error' : 'form-control'"
+                               class="form-control" id="name" name="name" th:value="${product.getName()}">
+                    </div>
+                    <div class="field-error msg" th:if="${errors?.containsKey('name')}"
+                         th:text="${errors['name']}">
+                        이름 오류
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="price" class="col-sm-2 col-form-label">가격</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="price" name="price" th:value="${product.getPrice()}">
+                        <input type="text" th:class="${errors?.containsKey('email')} ? 'form-control field-error' : 'form-control'"
+                               class="form-control" id="price" name="price" th:value="${product.getPrice()}">
+                    </div>
+                    <div class="field-error msg" th:if="${errors?.containsKey('price')}"
+                         th:text="${errors['price']}">
+                        가격 오류
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">제품 수정</button>
