@@ -55,7 +55,7 @@
         ]);
 
         var options = {
-            title: 'My Daily Activities'
+            title: '날짜를 선택하세요.'
         };
         var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
         var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
@@ -78,11 +78,11 @@
         data.addColumn('string', '제품이름');
         data.addColumn('number', '판매개수');
         data.addRows([
-            ['Mike',  'a', 1],
-            ['Jim',   'a',  2],
-            ['Alice', 'a', 3],
-            ['Bob',   'a',  4],
-            ['Bob',   'a',  5]
+            ['-',  '-', 0],
+            ['-',   '-',  0],
+            ['-', '-', 0],
+            ['-',   '-',  0],
+            ['-',   '-',  0]
         ]);
 
         var table1 = new google.visualization.Table(document.getElementById('table_div1'));

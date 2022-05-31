@@ -22,7 +22,6 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 public class JavaConfig {
-
     @Bean
     public MemberController memberController(){
         return new MemberController(memberService());
