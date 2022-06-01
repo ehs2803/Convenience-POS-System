@@ -1,13 +1,7 @@
 package com.example.convenience_pos_system.controller;
 
-import com.example.convenience_pos_system.dao.ajax.AjaxProductQuantityPerDay;
-import com.example.convenience_pos_system.dao.ajax.AjaxResponseQuantityPerDay;
 import com.example.convenience_pos_system.domain.*;
 import com.example.convenience_pos_system.service.StatisticsService;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
