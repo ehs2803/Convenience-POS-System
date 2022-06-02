@@ -120,7 +120,7 @@ public class ProductController {
         if(!StringUtils.hasText(uproduct.getName())){
             errors.put("name", "제품이름은 필수 항목 입니다.");
         }
-        if(uproduct.getPrice()==0){
+        if(uproduct.getPrice()<=0){
             errors.put("price", "가격은 1원 이상으로 입력하세요.");
         }
 
