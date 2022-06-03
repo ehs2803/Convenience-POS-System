@@ -3,7 +3,6 @@ package com.example.convenience_pos_system.service;
 import com.example.convenience_pos_system.dao.ProductDao;
 import com.example.convenience_pos_system.dao.SaleDao;
 import com.example.convenience_pos_system.dao.SaleDetailDao;
-import com.example.convenience_pos_system.dao.ajax.AjaxProductQuantityPerDay;
 import com.example.convenience_pos_system.domain.Product;
 import com.example.convenience_pos_system.domain.Sale;
 import com.example.convenience_pos_system.domain.SaleDetail;
@@ -93,14 +92,6 @@ public class StatisticsService {
             Collections.sort(listKeySet,
                     (value1, value2) -> (quantityDay.get(value2).compareTo(quantityDay.get(value1))));
             //for(Long key : listKeySet) { System.out.println("key : " + key + " , " + "value : " + quantityDay.get(key)); }
-
-            List<AjaxProductQuantityPerDay> temp = new ArrayList<>();
-            for (Long key : listKeySet) {
-                Product product = productDao.selectById(key);
-                AjaxProductQuantityPerDay tempElement = new AjaxProductQuantityPerDay(key, product.getCode(),
-                        product.getName(), product.getPrice(), quantityDay.get(key));
-                temp.add(tempElement);
-            }
 
             jo.addProperty("status", "YES");
             if(per.equals("week")){
