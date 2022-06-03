@@ -12,14 +12,4 @@ public class WebController {
         return "mainpage";
     }
 
-    @GetMapping(value = "/about")
-    public String about(){
-        return "about";
-    }
-
-    @GetMapping(value = "/contact")
-    public String contact(){
-        return "contact";
-    }
-
 }
