@@ -99,6 +99,7 @@
 ## view
 
 1. 부트스트랩 무료 템플릿
+
 https://startbootstrap.com/template/heroic-features
 
 <br>
@@ -118,9 +119,13 @@ https://startbootstrap.com/template/heroic-features
 ## 프로그램 구조
 
 1) java 소스
+
 ![pos](./images/program1.jpg)
 
+<br>
+
 2) view 소스
+
 ![pos](./images/program2.jpg)
 
 <br>
