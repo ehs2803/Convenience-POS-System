@@ -6,13 +6,16 @@
 편의점 POS(Point Of Sale) 시스템
 
 <br>
-<br>
 
 ## 프로젝트 소개 
 스프링부트 프레임워크를 이용한 편의점 POS 시스템 개발. 스프링프레임워크(소프트웨어학과전공) 과목 텀프로젝트
 
-
 <br>
+
+## 개발기간
+
+2022.05.09~2022.06.03
+
 <br>
 
 
@@ -23,7 +26,6 @@
 - 판매기능
 - 통계기능
 
-<br>
 <br>
 
 
@@ -144,6 +146,15 @@ https://startbootstrap.com/template/heroic-features
 **sale_detail_tb** : 판매 상세 내역이 저장되는 테이블입니다. sale_tb, product_tb 테이블을 참조하고, 상품이름, 상품 가격, 판매 수량이 저장됩니다.
 
 **sale_cart_tb** : 계산 대기 상품을 저장하는 테이블입니다. member_tb, product_tb를 참조하고, 계산 할 대기 상품 수량을 의미합니다.
+
+<br>
+<br>
+
+## 오픈소스 
+
+1) 테이블 페이징 구현
+ https://codepen.io/jaehee/pen/mRmNEX
+ 위 사이트의 소스코드를 기반으로 테이블 페이징을 구현했습니다. 
 
 <br>
 <br>
