@@ -158,6 +158,7 @@ https://startbootstrap.com/template/heroic-features
 ## 오픈소스 
 
 1) 테이블 페이징 구현
+
  https://codepen.io/jaehee/pen/mRmNEX
  위 사이트의 소스코드를 기반으로 테이블 페이징을 구현했습니다. 
 
