@@ -1,5 +1,6 @@
 package com.example.convenience_pos_system.config;
 
+import org.apache.tomcat.jdbc.pool.DataSource;
 import com.example.convenience_pos_system.controller.MemberController;
 import com.example.convenience_pos_system.controller.ProductController;
 import com.example.convenience_pos_system.controller.SaleController;
@@ -12,12 +13,8 @@ import com.example.convenience_pos_system.service.StatisticsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.sql.DataSource;
-
 
 @Configuration
 @EnableTransactionManagement
@@ -96,12 +93,14 @@ public class JavaConfig {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource datasource = new DriverManagerDataSource();
-        datasource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        datasource.setUrl("jdbc:mysql://127.0.0.1:3306/POS");
-        datasource.setUsername("root");
-        datasource.setPassword("1234");
-        return datasource;
+        DataSource ds = new DataSource();
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://127.0.0.1:3306/POS");
+        ds.setUsername("root");
+        ds.setPassword("1234");
+        ds.setInitialSize(2);
+        ds.setMaxActive(10);
+        return ds;
     }
 
     @Bean
