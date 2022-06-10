@@ -169,5 +169,6 @@ https://startbootstrap.com/template/heroic-features
 ## 기타
 
 1. 로그
+
 스프링 인터셉터를 이용해 로그를 기록하게 함. logs 폴더에 일 단위로 로그 파일이 
 생성됨. 로그파일의 최대크기는 1MB임.
