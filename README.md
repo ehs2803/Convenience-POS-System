@@ -68,6 +68,31 @@
 <br>
 <br>
 
+### 계정 기능
+
+![image](https://user-images.githubusercontent.com/65898555/187892762-cd05e7e0-0684-4503-80c8-55650725b06c.png)<hr>
+![image](https://user-images.githubusercontent.com/65898555/187892771-f071808e-e393-4b2b-a230-6e928edd8b30.png)<hr>
+![image](https://user-images.githubusercontent.com/65898555/187892803-c6d225d5-2be4-49d4-b4ae-2eb0f398b7f4.png)<hr>
+![image](https://user-images.githubusercontent.com/65898555/187892818-cc650ebd-8baf-4885-936e-5e1bc3ccab70.png)<hr>
+
+### 재고관리 기능
+
+![image](https://user-images.githubusercontent.com/65898555/187892940-dc79865c-f4dc-468d-a77f-0d194f4505a3.png)<hr>
+![image](https://user-images.githubusercontent.com/65898555/187892974-2b67ac69-6da0-42fb-8552-b459e7f092fb.png)<hr>
+![image](https://user-images.githubusercontent.com/65898555/187893007-6bb1294a-a9c7-4d53-8ff1-3b741ddc1fce.png)<hr>
+
+### 판매 기능
+
+![image](https://user-images.githubusercontent.com/65898555/187893089-ba0eb88f-2ad1-441a-938f-3bb461b66a27.png)<hr>
+![image](https://user-images.githubusercontent.com/65898555/187893110-c00440e7-dfa2-4659-b99c-2b205815f662.png)<hr>
+
+### 통계 기능
+
+![image](https://user-images.githubusercontent.com/65898555/187893166-c2d3d4f6-b406-411c-bb2d-452ff30a1cec.png)<hr>
+![image](https://user-images.githubusercontent.com/65898555/187893196-e7849b40-7d53-4f6a-a6d6-03363f8273ad.png)<hr>
+![image](https://user-images.githubusercontent.com/65898555/187893247-b2b6f6f0-d05e-465c-bd39-d0626aa126bd.png)<hr>
+![image](https://user-images.githubusercontent.com/65898555/187893272-6b01067c-4b98-4527-a885-a12ad2b3a6bc.png)<hr>
+
 
 ## 작품 개발 환경
 
